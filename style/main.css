@@ -1,0 +1,17 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #1e781e url("../images/background.jpg");
+}
+
+header{
+  font-size: 2.5rem;
+  text-align: center;
+  background: linear-gradient(#1c701c, #278727);
+
+}
+.fa-solid{
+  color: #195e19;
+}
