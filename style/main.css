@@ -1,17 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Delius&display=swap');
+
 *{
+  --font-menu: 'Delius', cursive;
+  --color-font-header: #0f470f;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 body {
   background: #1e781e url("../images/background.jpg");
+  font-family: 'Delius', cursive;
 }
 
 header{
-  font-size: 2.5rem;
+  background: linear-gradient(#196319, #227622);
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.label{
+  font-family: 'Henny Penny', cursive;
+  color: var(--color-font-header);
+  font-size: 38px;
   text-align: center;
-  background: linear-gradient(#1c701c, #278727);
-
 }
 .fa-solid{
-  color: #195e19;
+  color: var(--color-font-header);
 }
+.fa-question{
+  font-size: 40px;
+  color: #082308;
+  position: absolute;
+  top: 16px;
+  left: 32px;
+  z-index: 1;
+}
+
+.how-to-play{
+  padding-top: 10px;
+  padding-left: 20px;
+}
+#how-to-play--checkbox{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: #ffffff30;
+  appearance: none;
+  cursor: pointer;
+  border-radius: 15px;
+  box-shadow: 0 0 30px #00000036;
+  z-index: 2;
+
+}
+#how-to-play--text{
+  font-family: var(--font-menu);
+  font-size: 20px;
+  color: whitesmoke;
+  position: absolute;
+  top: 45px;
+  left: 120px;
+  width: 74%;
+  max-width: 1200px;
+  height: auto;
+  display: block;
+  border-radius: 15px;
+  box-shadow: 0 0 30px #00000056;
+  backdrop-filter: blur(20px);
+  transform-origin: top left;
+  transform: scale(0);
+  transition: transform 0.3s;
+}
+#how-to-play--checkbox:checked ~ #how-to-play--text { transform: scale(1); }
