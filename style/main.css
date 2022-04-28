@@ -17,14 +17,16 @@ body {
 }
 
 header{
+  margin-top: -4px;
   background: linear-gradient(#196319, #227622);
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
+  border-bottom: 6px double var(--bg-color-panels);
 }
 .label{
   font-family: 'Henny Penny', cursive;
   color: var(--color-font-header);
-  font-size: 38px;
+  font-size: 36px;
   text-align: center;
 }
 .fa-solid{
@@ -34,7 +36,7 @@ header{
   font-size: 40px;
   color: #082308;
   position: absolute;
-  top: 16px;
+  top: 12px;
   left: 32px;
   z-index: 1;
 }
@@ -54,6 +56,9 @@ header{
   box-shadow: 0 0 30px #00000036;
   z-index: 2;
 
+}
+#how-to-play--checkbox:hover{
+  background-color: #ffffff44;
 }
 #how-to-play--text{
   font-family: var(--font-menu);
@@ -76,6 +81,24 @@ header{
 }
 #how-to-play--checkbox:checked ~ #how-to-play--text { transform: scale(1); }
 
+#restart{
+  position: absolute;
+  left: 95%;
+  font-size: 34px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 30px;
+  background-color: #ffffff40;
+  box-shadow: 0 0 30px #00000036;
+}
+.fa-arrow-rotate-right{
+  color: #08230899;
+  margin-top: 6px;
+}
+#restart:hover{
+  background-color: #ffffff60;
+}
 
 main{
   display: flex;
@@ -94,9 +117,13 @@ main{
   border: var(--border);
   border-radius: 0 20px 20px 0;
 }
-
+.left-board hr{
+  margin: 20px 0;
+  border: var(--border);
+  border-bottom: none;
+}
 .right-board{
-  margin-top: 60px;
+  margin-top: 90px;
   padding: 30px 0;
   width: 22%;
   background-color: var(--bg-color-panels);
@@ -110,7 +137,6 @@ main{
 .center-panel{
   text-align: center;
   width: 56%;
-  border: 1px solid white;
 }
 .remain{
   font-family: var(--menu-font);
@@ -127,7 +153,6 @@ main{
   display: flex;
   justify-content: space-around;
   text-align: center;
-  border: 1px solid white;
 }
 .dice-image input{
   display: block;
@@ -159,6 +184,10 @@ td {
   padding: 7px;
   text-align: center;
 }
+td input{
+  margin-top: 10px;
+  transform: scale(1.4);
+}
 tr:nth-child(even) td {;
   background-color: var(--bg-table-even);
 }
@@ -167,9 +196,20 @@ tr:nth-child(odd) td {
 }
 
 .forgot{
-  width: 60%;
-  margin: auto;
+  width: 30%;
+  margin: 15px auto 0 auto;
   backdrop-filter: blur(1px);
   color: #dcdcdc;
   cursor: pointer;
+}
+.tip{
+  position: absolute;
+  top: -230px;
+  left: 27.5%;
+  transform: scale(0);
+  transform-origin: bottom;
+  transition: transform 0.2s;
+}
+.forgot:hover ~ .tip{
+  transform: scale(66%);
 }
