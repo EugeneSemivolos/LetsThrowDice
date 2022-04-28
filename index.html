@@ -20,7 +20,13 @@
         <div style="margin-left: 16px">
           Добро пожаловать в игру для двоих "Let's Throw Dice!"
           <br>
-
+          sdfsdfsdf
+          <br>
+          sdfsdfsdf
+          <br>
+          sdfsdfsdf
+          <br>
+          sdfsdfsdf
         </div>
       </div>
     </div>
@@ -28,15 +34,107 @@
       <i class="fa-solid fa-dice"></i> Let's throw Dice! <i class="fa-solid fa-dice"></i>
     </div>
   </header>
-  <div class="dice">
-    <img src="./images/dice/dice_1.png" alt="dice_1" width="100px">
-    <img src="./images/dice/dice_2.png" alt="dice_2" width="100px">
-    <img src="./images/dice/dice_3.png" alt="dice_3" width="100px">
-    <img src="./images/dice/dice_4.png" alt="dice_4" width="100px">
-    <img src="./images/dice/dice_5.png" alt="dice_5" width="100px">
-    <img src="./images/dice/dice_6.png" alt="dice_6" width="100px">
-  </div>
-
-  <script src="scripts/main.js"></script>
+  <main>
+    <div class="left-board">
+      <div>Total of the 1-st player:</div>
+      <div id="total-first">0</div>
+      <div>Total of the 2-nd player:</div>
+      <div id="total-second">0</div>
+      <div id="message">message</div>
+    </div>
+    <div class="center-panel">
+      <div class="remain">Throws left: <span>3</span></div>
+      <div class="dice">
+        <div class="dice-image">
+          <img src="./images/dice/dice_1.png" alt="dice_1" width="100px">
+          <input type="checkbox" name="dice" id="dice_1">
+        </div>
+        <div class="dice-image">
+          <img src="./images/dice/dice_2.png" alt="dice_2" width="100px">
+          <input type="checkbox" name="dice" id="dice_2">
+        </div>
+        <div class="dice-image">
+          <img src="./images/dice/dice_3.png" alt="dice_3" width="100px">
+          <input type="checkbox" name="dice" id="dice_3">
+        </div>
+        <div class="dice-image">
+          <img src="./images/dice/dice_4.png" alt="dice_4" width="100px">
+          <input type="checkbox" name="dice" id="dice_4">
+        </div>
+        <div class="dice-image">
+          <img src="./images/dice/dice_5.png" alt="dice_5" width="100px">
+          <input type="checkbox" name="dice" id="dice_5">
+        </div>
+        <div class="dice-image">
+          <img src="./images/dice/dice_6.png" alt="dice_6" width="100px">
+          <input type="checkbox" name="dice" id="dice_6">
+        </div>
+      </div>
+      <div class="record">
+        <div class="record-label">Records</div>
+        <table>
+          <tr>
+            <td>&nbsp;</td>
+            <td>Chance</td>
+            <td>Pair</td>
+            <td>Two Pair</td>
+            <td>Three of a Kind</td>
+            <td>Straight</td>
+            <td>Flush</td>
+            <td>Full House</td>
+            <td>Four of a Kind</td>
+            <td>Poker</td>
+          </tr>
+          <tr>
+            <td>1-st player</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+          </tr>
+          <tr>
+            <td>1-st player</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+          </tr>
+          <tr>
+            <td>Choice</td>
+            <td><input type="radio" name="record" id="chance"></td>
+            <td><input type="radio" name="record" id="pair"></td>
+            <td><input type="radio" name="record" id="two-pair"></td>
+            <td><input type="radio" name="record" id="three"></td>
+            <td><input type="radio" name="record" id="straight"></td>
+            <td><input type="radio" name="record" id="flush"></td>
+            <td><input type="radio" name="record" id="full-house"></td>
+            <td><input type="radio" name="record" id="four"></td>
+            <td><input type="radio" name="record" id="poker"></td>
+          </tr>
+        </table>
+        <div class="forgot">Forgot combinations?</div>
+        <div class="tip">
+          <img src="" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="right-board">
+      <div>Current combination</div>
+      <div id="current-comb">...</div>
+      <div>Bonus:</div>
+      <div id="bonus">0</div>
+    </div>
+  </main>
+<!--  <script src="scripts/main.js"></script>-->
 </body>
 </html>
