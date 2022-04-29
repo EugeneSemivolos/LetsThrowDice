@@ -9,6 +9,9 @@ const DICE_SOURCES = [
   "./images/dice/dice_6.png",
 ];
 
+
+const dices = document.getElementsByTagName('img');
+
 const waitForTime = (value, time) => {
   return new Promise(resolve => {
     setTimeout(() => resolve(value), time);
