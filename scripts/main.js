@@ -11,6 +11,12 @@ const DICE_SOURCES = [
 
 
 const dices = document.getElementsByTagName('img');
+dices.getValueOfDiceOnPos = (pos) => {
+  const diceSrs = dices[pos].src;
+  const len = diceSrs.length;
+  const posOfValueFromRight = 5;
+  return diceSrs[len - posOfValueFromRight];
+};
 
 const waitForTime = (value, time) => {
   return new Promise(resolve => {
