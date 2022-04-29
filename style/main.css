@@ -122,6 +122,12 @@ main{
   border: var(--border);
   border-bottom: none;
 }
+#total-first{
+  text-decoration: underline;
+}
+#total-second{
+  text-decoration: underline;
+}
 .right-board{
   margin-top: 90px;
   padding: 30px 0;
@@ -148,7 +154,7 @@ main{
   border-radius: 0 0 20px 20px;
 }
 .dice{
-  margin-top: 80px;
+  margin-top: 100px;
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -160,7 +166,7 @@ main{
   transform: scale(1.8);
 }
 .record{
-  margin-top: 50px;
+  margin-top: 100px;
 }
 .record-label{
   font-size: 20px;
@@ -179,10 +185,13 @@ table {
 tr{
   border: var(--border);
 }
+.player td{
+  font-size: 18px;
+}
 td {
   border: 2px solid #092d09;
-  padding: 7px;
   text-align: center;
+  padding: 2px 6px;
 }
 td input{
   margin-top: 10px;
@@ -204,12 +213,12 @@ tr:nth-child(odd) td {
 }
 .tip{
   position: absolute;
-  top: -160px;
+  top: -170px;
   left: 27.5%;
   transform: scale(0);
   transform-origin: bottom;
   transition: transform 0.2s;
 }
 .forgot:hover ~ .tip{
-  transform: scale(72%);
+  transform: scale(71%);
 }

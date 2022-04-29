@@ -37,9 +37,9 @@
   </header>
   <main>
     <div class="left-board">
-      <div>Total of the 1-st player:</div>
+      <div>Total of the <span>player 1</span>:</div>
       <div id="total-first">0</div>
-      <div>Total of the 2-nd player:</div>
+      <div>Total of the <span>player 2</span>:</div>
       <div id="total-second">0</div>
       <hr>
       <div id="message">message</div>
@@ -71,7 +71,7 @@
       <div class="record">
         <div class="record-label">Records</div>
         <table>
-          <tr>
+          <tr class="name-comb">
             <td>&nbsp;</td>
             <td>Chance</td>
             <td>Pair</td>
@@ -82,8 +82,19 @@
             <td>Four of a Kind</td>
             <td>Poker</td>
           </tr>
-          <tr>
-            <td>1-st player</td>
+          <tr class="player">
+            <td id="name_1">Player_1</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+            <td>*</td>
+          </tr>
+          <tr class="player">
+            <td id="name_2">Player_2</td>
             <td>*</td>
             <td>*</td>
             <td>*</td>
@@ -94,18 +105,7 @@
             <td>*</td>
           </tr>
           <tr>
-            <td>1-st player</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-          </tr>
-          <tr>
-            <td>Choice</td>
+            <td style="font-size: 20px">Choice</td>
             <td><input type="radio" name="record" id="chance"></td>
             <td><input type="radio" name="record" id="pair"></td>
             <td><input type="radio" name="record" id="two-pair"></td>
@@ -123,7 +123,7 @@
       </div>
     </div>
     <div class="right-board">
-      <div>Current combination</div>
+      <div>Current combination:</div>
       <div id="current-comb">...</div>
       <div>Bonus:</div>
       <div id="bonus">0</div>
