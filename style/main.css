@@ -204,12 +204,12 @@ tr:nth-child(odd) td {
 }
 .tip{
   position: absolute;
-  top: -230px;
+  top: -160px;
   left: 27.5%;
   transform: scale(0);
   transform-origin: bottom;
   transition: transform 0.2s;
 }
 .forgot:hover ~ .tip{
-  transform: scale(66%);
+  transform: scale(72%);
 }
