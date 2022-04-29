@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=BioRhyme&display=swap');
 *{
   --font-menu: 'BioRhyme', serif;
+  --font-color: #d5d5d5;
   --color-font-header: rgba(12, 60, 12, 1);
   --bg-color-panels: #093f09;
   --bg-table-odd: #0c4e0c;
@@ -100,6 +101,12 @@ header{
   background-color: #ffffff60;
 }
 
+
+.values{
+  font-size: 24px;
+  text-decoration: underline;
+  text-shadow: 0 0 10px #06a406;
+}
 main{
   display: flex;
   align-items: flex-start;
@@ -107,11 +114,11 @@ main{
 }
 
 .left-board{
-  margin-top: 60px;
+  margin-top: 90px;
   padding: 30px 0;
   width: 22%;
   background-color: var(--bg-color-panels);
-  color: #d5d5d5;
+  color: var(--font-color);
   font-size: 20px;
   text-align: center;
   border: var(--border);
@@ -122,18 +129,12 @@ main{
   border: var(--border);
   border-bottom: none;
 }
-#total-first{
-  text-decoration: underline;
-}
-#total-second{
-  text-decoration: underline;
-}
 .right-board{
   margin-top: 90px;
   padding: 30px 0;
   width: 22%;
   background-color: var(--bg-color-panels);
-  color: #d5d5d5;
+  color: var(--font-color);
   font-size: 20px;
   text-align: center;
   border: var(--border);
@@ -141,6 +142,10 @@ main{
 }
 
 .center-panel{
+  background-color: rgba(5, 56, 5, 0.23);
+  backdrop-filter: blur(2px);
+  border: var(--border);
+  border-top: none;
   text-align: center;
   width: 56%;
 }
@@ -165,12 +170,29 @@ main{
   margin: 5px auto;
   transform: scale(1.8);
 }
+.throw-finish button{
+  width: 100px;
+  height: 40px;
+  margin-top: 30px;
+  margin-left: 20px;
+  font-size: 18px;
+  font-family: var(--font-menu);
+  color: var(--font-color);
+  text-shadow: 0 0 10px #0e1b0e;
+  background: #0f5c0f;
+  border-radius: 14px;
+  box-shadow: 0 0 5px black;
+}
+.throw-finish button:hover{
+  background-color: #0e580e;
+  color: #bdbdbd;
+}
 .record{
-  margin-top: 100px;
+  margin-top: 34px;
 }
 .record-label{
   font-size: 20px;
-  color: whitesmoke;
+  color: var(--font-color);
   background-color: var(--bg-table-even);
   border: var(--border);
   border-bottom: none;
@@ -180,7 +202,7 @@ table {
   border-collapse: collapse;
   letter-spacing: 1px;
   font-size: 0.9rem;
-  color: whitesmoke;
+  color: var(--font-color);
 }
 tr{
   border: var(--border);
@@ -205,19 +227,24 @@ tr:nth-child(odd) td {
 }
 
 .forgot{
-  width: 30%;
-  margin: 15px auto 0 auto;
+  width: 34%;
+  margin: 10px auto 0 auto;
   backdrop-filter: blur(1px);
+  font-size: 18px;
   color: #dcdcdc;
   cursor: pointer;
+  border-radius: 15px 15px 0 0;
 }
 .tip{
   position: absolute;
-  top: -170px;
-  left: 27.5%;
+  top: -250px;
+  left: 9%;
   transform: scale(0);
   transform-origin: bottom;
   transition: transform 0.2s;
+}
+.forgot:hover{
+  text-shadow: 0 0 2px whitesmoke;
 }
 .forgot:hover ~ .tip{
   transform: scale(71%);

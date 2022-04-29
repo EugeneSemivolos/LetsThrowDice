@@ -37,15 +37,14 @@
   </header>
   <main>
     <div class="left-board">
-      <div>Total of the <span>player 1</span>:</div>
-      <div id="total-first">0</div>
-      <div>Total of the <span>player 2</span>:</div>
-      <div id="total-second">0</div>
+      <div>Total of the <span>player 1</span>: <span id="total-first" class="values">0</span></div>
+      <div>Total of the <span>player 2</span>: <span id="total-second" class="values">0</span>
+      </div>
       <hr>
-      <div id="message">message</div>
+      <div id="message">Whose turn</div>
     </div>
     <div class="center-panel">
-      <div class="remain">Throws left: <span>3</span></div>
+      <div class="remain">Throws left: <span>2</span></div>
       <div class="dice">
         <div class="dice-image">
           <img src="./images/dice/dice_1.png" alt="pos_1" width="100px">
@@ -67,6 +66,10 @@
           <img src="./images/dice/dice_5.png" alt="pos_5" width="100px">
           <input type="checkbox" name="dice" id="pos_5">
         </div>
+      </div>
+      <div class="throw-finish">
+        <button id="throw-button" onclick="throwDices()">Throw!</button>
+        <button>Finish</button>
       </div>
       <div class="record">
         <div class="record-label">Records</div>
@@ -124,9 +127,9 @@
     </div>
     <div class="right-board">
       <div>Current combination:</div>
-      <div id="current-comb">...</div>
-      <div>Bonus:</div>
-      <div id="bonus">0</div>
+      <div id="current-comb" class="values">...</div>
+      <div>Bonus: <span id="bonus" class="values">0</span></div>
+      <div>TOTAL: <span id="total" class="values">0</span></div>
     </div>
   </main>
   <script src="scripts/main.js"></script>
