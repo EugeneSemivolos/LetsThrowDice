@@ -1,4 +1,5 @@
 const dice = document.getElementsByTagName('img');
+const AMOUNT_OF_DICES = 5;
 const DICE_SOURCES = [
   "./images/dice/dice_1.png",
   "./images/dice/dice_2.png",
@@ -19,7 +20,7 @@ const waitForSecond = (value) => {
   let k = 0;
   while (k !== 10) {
     for (const source of DICE_SOURCES) {
-      const i = Math.floor(Math.random()*6);
+      const i = Math.floor(Math.random()*5);
       dice[i].src = await waitForSecond(source);
     }
     k++;
