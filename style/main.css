@@ -61,6 +61,12 @@ header{
 #how-to-play--checkbox:hover{
   background-color: #ffffff44;
 }
+#how-to-play--checkbox:active{
+  transform: scale(0.93);
+}
+#how-to-play--checkbox:active ~ .fa-question{
+  transform: scale(0.93);
+}
 #how-to-play--text{
   font-family: var(--font-menu);
   font-size: 20px;
@@ -69,12 +75,11 @@ header{
   top: 50px;
   left: 70px;
   width: 74%;
-
   height: auto;
   display: block;
   border-radius: 15px;
   box-shadow: 0 0 30px #00000056;
-  backdrop-filter: blur(30px);
+  backdrop-filter: blur(80px);
   transform-origin: top left;
   transform: scale(0);
   transition: transform 0.3s;
@@ -100,17 +105,20 @@ header{
 #restart:hover{
   background-color: #ffffff60;
 }
-
-
-.values{
-  font-size: 24px;
-  text-decoration: underline;
-  text-shadow: 0 0 10px #06a406;
+#restart:active{
+  transform: scale(0.92);
 }
+
+
 main{
   display: flex;
   align-items: flex-start;
   width: 100%;
+}
+.values{
+  font-size: 24px;
+  text-decoration: underline;
+  text-shadow: 0 0 10px #06a406;
 }
 
 .left-board{
@@ -165,10 +173,28 @@ main{
   justify-content: space-around;
   text-align: center;
 }
-.dice-image input{
+.checkbox{
+  appearance: none;
+  background-color: #fafafa;
+  border: 1px solid #cacece;
+  border-radius: 3px;
+  width: 20px;
+  height: 20px;
   display: block;
   margin: 5px auto;
-  transform: scale(1.8);
+}
+
+
+.checkbox:checked {
+  background-color: #e2e4e0;
+  border: 1px solid #adb8c0;
+  color: #99a1a7;
+}
+.checkbox:checked:after {
+  padding-left: 2px;
+  content: '\2714';
+  font-size: 18px;
+  color: #196319;
 }
 .throw-finish button{
   width: 100px;
