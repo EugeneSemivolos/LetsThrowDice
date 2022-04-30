@@ -1,5 +1,5 @@
 const NUM_OF_DICE_POSITIONS = 5;
-const NUM_OF_DICE = 6;
+const NUM_OF_DICE_VALUE = 6;
 const DICE_SOURCES = [
   "./images/dice/dice_1.png",
   "./images/dice/dice_2.png",
@@ -11,6 +11,8 @@ const DICE_SOURCES = [
 
 
 const dices = document.getElementsByTagName('img');
+
+
 dices.getValueOfDiceOnPos = (pos) => {
   const diceSrs = dices[pos].src;
   const len = diceSrs.length;
@@ -18,19 +20,25 @@ dices.getValueOfDiceOnPos = (pos) => {
   return diceSrs[len - posOfValueFromRight];
 };
 
+dices.getValues = () => {
+  const values = [];
+  for (let i = 0; i < NUM_OF_DICE_POSITIONS; i++) {
+    values.push(dices.getValueOfDiceOnPos(i));
+  }
+  return values.map((e) => (parseInt(e)));
+};
+
 const waitForTime = (value, time) => {
   return new Promise(resolve => {
     setTimeout(() => resolve(value), time);
   });
 };
-
 const roll = async (checkedDice) => {
   let time = 30;
   while (time < 180) {
     const randPos = checkedDice[Math.floor(Math.random()*checkedDice.length)] - 1;
-    const randDice = Math.floor(Math.random()*NUM_OF_DICE);
+    const randDice = Math.floor(Math.random()*NUM_OF_DICE_VALUE);
     dices[randPos].src = await waitForTime(DICE_SOURCES[randDice], time);
     time *= 1.04;
   }
 };
-roll([1, 3, 5]);
