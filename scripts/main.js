@@ -42,3 +42,11 @@ const roll = async (checkedDice) => {
     time *= 1.04;
   }
 };
+
+const throwDices = async () => {
+  const throwBtn = document.getElementById('throw-button');
+  throwBtn.disabled = true;
+  await roll([1, 2, 3, 4, 5]);
+  const values = dices.getValues();
+  console.log(values);
+};
