@@ -10,14 +10,12 @@ const DICE_SOURCES = [
 ];
 
 const dices = document.getElementsByTagName('img');
-
 dices.getValueOfDiceOnPos = (pos) => {
   const diceSrs = dices[pos].src;
   const len = diceSrs.length;
   const posOfValueFromRight = 5;
   return diceSrs[len - posOfValueFromRight];
 };
-
 dices.getValues = () => {
   const values = [];
   for (let i = 0; i < NUM_OF_DICE_POSITIONS; i++) {
@@ -26,8 +24,22 @@ dices.getValues = () => {
   return values.map((e) => (parseInt(e)));
 };
 
+const checkboxes = document.getElementsByClassName('checkbox');
+checkboxes.getCheckedDices = () => {
+  const checkboxValues = [];
+  for (const checkbox of checkboxes){
+    checkboxValues.push(checkbox.checked);
+  }
+  return checkboxValues.reduce((acc, cur, i) => cur ? [...acc, i + 1] : acc, []);
+};
+checkboxes.clear = () => {
+  for (const checkbox of checkboxes){
+    checkbox.checked = false;
+  }
+};
+
 const waitForTime = (value, time) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     setTimeout(() => resolve(value), time);
   });
 };
@@ -102,12 +114,19 @@ const checkComb = (inputDices) => { //return array [nameComb, bonus, resultSum]
 const throwDices = async () => {
   const throwBtn = document.getElementById('throw-button');
   throwBtn.disabled = true;
-  await roll([1, 2, 3, 4, 5]);
+  const checkedDices = checkboxes.getCheckedDices();
+  if (checkedDices.length) {
+    await roll(checkedDices);
+  } else {
+    console.error('check the dices you want to roll');
+    throwBtn.disabled = false;
+    return;
+  }
   const values = dices.getValues();
-  console.log(values);
   const [nameComb, bonus, resultSum] = checkComb(values);
   document.getElementById('current-comb').innerHTML = nameComb;
   document.getElementById('bonus').innerHTML = bonus.toString();
   document.getElementById('total').innerHTML = resultSum.toString();
   throwBtn.disabled = false;
+  checkboxes.clear();
 };
