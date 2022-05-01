@@ -9,7 +9,7 @@ const DICE_SOURCES = [
   "./images/dice/dice_6.png",
 ];
 
-const dices = document.getElementsByTagName('img');
+const dices = document.getElementsByClassName('dice-value');
 dices.getValueOfDiceOnPos = (pos) => {
   const diceSrs = dices[pos].src;
   const len = diceSrs.length;
@@ -109,7 +109,7 @@ const checkComb = (inputDices) => { //return array [nameComb, bonus, resultSum]
     }
   }
   return ["Chance", 0, sumOfValues];
-}
+};
 
 const throwDices = async () => {
   const throwBtn = document.getElementById('throw-button');
