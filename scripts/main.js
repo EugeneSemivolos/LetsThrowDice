@@ -37,6 +37,53 @@ checkboxes.clear = () => {
     checkbox.checked = false;
   }
 };
+checkboxes.fill = () => {
+  for (const checkbox of checkboxes){
+    checkbox.checked = true;
+  }
+};
+checkboxes.makeDisable =() => {
+  for (const checkbox of checkboxes){
+    checkbox.disabled = true;
+  }
+};
+checkboxes.makeEnable =() => {
+  for (const checkbox of checkboxes){
+    checkbox.disabled = false;
+  }
+};
+
+const whoseTurn = document.getElementById('whose-turn');
+const throwsLeft = document.getElementById('throws-left');
+Object.defineProperty(throwsLeft, 'value', {
+  get () {
+    return this.val;
+  },
+  set (x) {
+    this.innerHTML = x;
+    this.val = x;
+  },
+});
+
+const throwBtn = document.getElementById('throw-button');
+
+const radioButtons = document.getElementsByClassName('radio');
+radioButtons.show = (usedRadios, player) => {
+  let i = 0;
+  for (const usedRadio of usedRadios[player - 1]){
+    if (!usedRadio) radioButtons[i].disabled = false;
+    i++;
+  }
+};
+radioButtons.disableAll = () => {
+  for (const radioButton of radioButtons){
+    radioButton.disabled = true;
+  }
+}
+
+const usedRadioButtons = [];
+usedRadioButtons.push([]);        // for First player
+usedRadioButtons.push([]);         // for Second player
 
 const waitForTime = (value, time) => {
   return new Promise(resolve => {
@@ -112,21 +159,33 @@ const checkComb = (inputDices) => { //return array [nameComb, bonus, resultSum]
 };
 
 const throwDices = async () => {
-  const throwBtn = document.getElementById('throw-button');
-  throwBtn.disabled = true;
   const checkedDices = checkboxes.getCheckedDices();
-  if (checkedDices.length) {
-    await roll(checkedDices);
-  } else {
+  if (!checkedDices.length) {
     console.error('check the dices you want to roll');
-    throwBtn.disabled = false;
     return;
   }
+  checkboxes.makeDisable();
+  throwBtn.disabled = true;
+  await roll(checkedDices);
   const values = dices.getValues();
   const [nameComb, bonus, resultSum] = checkComb(values);
   document.getElementById('current-comb').innerHTML = nameComb;
   document.getElementById('bonus').innerHTML = bonus.toString();
   document.getElementById('total').innerHTML = resultSum.toString();
-  throwBtn.disabled = false;
+  throwsLeft.value--;
   checkboxes.clear();
+  if (throwsLeft.value !== 0) {
+    throwBtn.disabled = false;
+    checkboxes.makeEnable();
+  }
 };
+
+const restart = () => {
+  whoseTurn.innerHTML = 'player 1 throws dices';
+  throwsLeft.value = 3;
+  checkboxes.fill();
+  checkboxes.makeEnable();
+  throwBtn.disabled = false;
+  throwDices();
+};
+restart();
