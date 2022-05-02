@@ -10,6 +10,9 @@ const DICE_SOURCES = [
   './images/dice/dice_5.png',
   './images/dice/dice_6.png',
 ];
+const START_DELAY = 30;
+const DELAY_ACCELERATION = 1.04;
+const END_DELAY = 180;
 
 const dices = document.getElementsByClassName('dice-value');
 dices.getValueOfDiceOnPos = pos => {
@@ -59,13 +62,10 @@ Object.defineProperty(throwsLeft, 'value', {
 });
 
 const throwBtn = document.getElementById('throw-button');
-
 const radioButtons = document.getElementsByClassName('radio');
 radioButtons.show = (usedRadios, player) => {
-  let i = 0;
-  for (const usedRadio of usedRadios[player - 1]) {
+  for (const [i, usedRadio] of usedRadios[player - 1].entries()) {
     if (!usedRadio) radioButtons[i].disabled = false;
-    i++;
   }
 };
 radioButtons.disableAll = () => {
@@ -75,28 +75,30 @@ radioButtons.disableAll = () => {
 };
 
 const usedRadioButtons = [];
-usedRadioButtons.push([]);        // for First player
-usedRadioButtons.push([]);         // for Second player
+const sample = new Array(8).fill(false);
+usedRadioButtons.push(sample); // for First player
+usedRadioButtons.push(sample); // for Second player
 
-const waitForTime = (value, time) => new Promise(resolve => {
-  setTimeout(() => resolve(value), time);
+const sleep = time => new Promise(resolve => {
+  setTimeout(resolve, time);
 });
 
 const roll = async checkedDice => {
-  let time = 30;
-  while (time < 180) {
+  let delay = START_DELAY;
+  while (delay < END_DELAY) {
     const randNum = x => Math.floor(Math.random() * x);
     const randPos = checkedDice[randNum(checkedDice.length)] - 1;
     const randDice = randNum(NUM_OF_DICE_VALUE);
-    dices[randPos].src = await waitForTime(DICE_SOURCES[randDice], time);
-    time *= 1.04;
+    await sleep(delay);
+    dices[randPos].src = DICE_SOURCES[randDice];
+    delay *= DELAY_ACCELERATION;
   }
 };
 
 const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
   const numOfValues = new Array(NUM_OF_DICE_VALUE + 1).fill(0);
-  delete numOfValues[0];
   const numOfComb = new Array(NUM_OF_DICE_VALUE).fill(0);
+  //numOfComb means number of pairs or triplets or ect
   let sumOfValues = 0;
   for (const value of inputDices) {
     numOfValues[value]++;
@@ -105,50 +107,17 @@ const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
   for (let i = 1; i <= NUM_OF_DICE_VALUE; i++) {
     numOfComb[numOfValues[i]]++;
   }
-  // Poker
-  if (numOfComb[5] === 1) {
-    return ['Poker', 50, sumOfValues + 50];
-  }
-  //Straight
-  if (numOfValues[2] && numOfValues[3] && numOfValues[4] &&
-  numOfValues[5] && (numOfValues[1] || numOfValues[6])) {
-    return ['Straight', 20, sumOfValues + 20];
-  }
-  // Four of a kind
-  if (numOfComb[4] === 1) {
-    for (let i = 1; i <= NUM_OF_DICE_VALUE; i++) {
-      if (numOfValues[i] === 4) {
-        return ['Square', 40, 4 * i + 40];
-      }
-    }
-  }
-  // Full House
-  if (numOfComb[3] === 1) {
-    if (numOfComb[2] === 1) {
-      return ['Full House', 30, sumOfValues + 30];
-    } else { // Three of a kind
-      for (let i = 1; i <= NUM_OF_DICE_VALUE; i++) {
-        if (numOfValues[i] === 3) {
-          return ['Three', 15, 3 * i + 15];
-        }
-      }
-    }
-  }
-  // Two pair
+  if (numOfComb[5]) return ['Poker', 50, sumOfValues + 50];
+  if (numOfComb[4]) return ['Square', 40, 4 * numOfValues.indexOf(4) + 40];
+  if (numOfComb[3] && numOfComb[2]) return ['Full House', 30, sumOfValues + 30];
+  if (numOfComb[3]) return ['Three', 15, 3 * numOfValues.indexOf(3) + 15];
   if (numOfComb[2] === 2) {
-    let sum = 0;
-    for (let i = 1; i <= NUM_OF_DICE_VALUE; i++) {
-      if (numOfValues[i] === 2) sum += 2 * i;
-    }
-    return ['Two Pair', 10, sum + 10];
+    const sum = 2 * (numOfValues.indexOf(2) + numOfValues.lastIndexOf(2)) + 10;
+    return ['Two Pair', 10, sum];
   }
-  // Pair
-  for (let i = 1; i <= NUM_OF_DICE_VALUE; i++) {
-    if (numOfValues[i] === 2) {
-      return ['Two', 5, 2 * i + 5];
-    }
-  }
-  return ['Chance', 0, sumOfValues];
+  if (numOfComb[2]) return ['Two', 5, 2 * numOfValues.indexOf(2) + 5];
+  if (numOfValues.slice(2, 6).includes(0)) return ['Chance', 0, sumOfValues];
+  return ['Straight', 20, sumOfValues + 20];
 };
 
 const throwDices = async () => {
