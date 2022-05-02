@@ -32,25 +32,16 @@ checkboxes.getCheckedDices = () => {
   }
   return checkboxValues.reduce((acc, cur, i) => cur ? [...acc, i + 1] : acc, []);
 };
-checkboxes.clear = () => {
+checkboxes.map = (callback) => {
   for (const checkbox of checkboxes){
-    checkbox.checked = false;
+    callback(checkbox);
   }
 };
-checkboxes.fill = () => {
-  for (const checkbox of checkboxes){
-    checkbox.checked = true;
-  }
+checkboxes.makeChecked = (isChecked) => {
+  checkboxes.map((checkbox) => { checkbox.checked = isChecked; });
 };
-checkboxes.makeDisable =() => {
-  for (const checkbox of checkboxes){
-    checkbox.disabled = true;
-  }
-};
-checkboxes.makeEnable =() => {
-  for (const checkbox of checkboxes){
-    checkbox.disabled = false;
-  }
+checkboxes.makeDisable = (isDisabled) => {
+  checkboxes.map((checkbox) => { checkbox.disabled = isDisabled; });
 };
 
 const whoseTurn = document.getElementById('whose-turn');
@@ -164,7 +155,7 @@ const throwDices = async () => {
     console.error('check the dices you want to roll');
     return;
   }
-  checkboxes.makeDisable();
+  checkboxes.makeDisable(true);
   throwBtn.disabled = true;
   await roll(checkedDices);
   const values = dices.getValues();
@@ -173,18 +164,18 @@ const throwDices = async () => {
   document.getElementById('bonus').innerHTML = bonus.toString();
   document.getElementById('total').innerHTML = resultSum.toString();
   throwsLeft.value--;
-  checkboxes.clear();
+  checkboxes.makeChecked(false);
   if (throwsLeft.value !== 0) {
     throwBtn.disabled = false;
-    checkboxes.makeEnable();
+    checkboxes.makeDisable(false);
   }
 };
 
 const restart = () => {
   whoseTurn.innerHTML = 'player 1 throws dices';
   throwsLeft.value = 3;
-  checkboxes.fill();
-  checkboxes.makeEnable();
+  checkboxes.makeChecked(true);
+  checkboxes.makeDisable(false);
   throwBtn.disabled = false;
   throwDices();
 };
