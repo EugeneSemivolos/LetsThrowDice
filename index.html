@@ -45,8 +45,8 @@
   </header>
   <main>
     <div class="left-board">
-      <div>Total of the <span>player 1</span>: <span id="total-first" class="values">0</span></div>
-      <div>Total of the <span>player 2</span>: <span id="total-second" class="values">0</span>
+      <div>Total of the <span id>player 1</span>: <span id="total-1" class="values">0</span></div>
+      <div>Total of the <span>player 2</span>: <span id="total-2" class="values">0</span>
       </div>
       <hr>
       <div id="whose-turn">Whose turn</div>
@@ -77,7 +77,7 @@
       </div>
       <div class="throw-finish">
         <button id="throw-button" onclick="throwDices()">Throw!</button>
-        <button>Finish</button>
+        <button id="finish-button" onclick="recordResult()">Finish</button>
       </div>
       <div class="record">
         <div class="record-label">Records</div>
@@ -117,14 +117,14 @@
           </tr>
           <tr>
             <td style="font-size: 20px">Choice</td>
-            <td><input type="radio" name="record" class="radio"></td>
-            <td><input type="radio" name="record" class="radio"></td>
-            <td><input type="radio" name="record" class="radio"></td>
-            <td><input type="radio" name="record" class="radio"></td>
-            <td><input type="radio" name="record" class="radio"></td>
-            <td><input type="radio" name="record" class="radio"></td>
-            <td><input type="radio" name="record" class="radio"></td>
-            <td><input type="radio" name="record" class="radio"></td>
+            <td><input type="radio" name="record" class="radio" value="0"></td>
+            <td><input type="radio" name="record" class="radio" value="1"></td>
+            <td><input type="radio" name="record" class="radio" value="2"></td>
+            <td><input type="radio" name="record" class="radio" value="3"></td>
+            <td><input type="radio" name="record" class="radio" value="4"></td>
+            <td><input type="radio" name="record" class="radio" value="5"></td>
+            <td><input type="radio" name="record" class="radio" value="6"></td>
+            <td><input type="radio" name="record" class="radio" value="7"></td>
           </tr>
         </table>
         <div class="forgot">Forgot combinations?</div>
