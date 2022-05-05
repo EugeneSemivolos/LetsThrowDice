@@ -22,6 +22,8 @@ const START_DELAY = 30;
 const DELAY_ACCELERATION = 1.04;
 const END_DELAY = 180;
 
+const playersName = [];
+
 let player = 0;
 const totals = [
   document.getElementById('total-1'),
@@ -126,6 +128,17 @@ usedRadioButtons.reset = () => {
   usedRadioButtons[1].fill(false);
 };
 
+const setNames = () => {
+  const names1 = document.getElementsByClassName('name-1');
+  for (const name of names1) {
+    name.innerHTML = playersName[0];
+  }
+  const names2 = document.getElementsByClassName('name-2');
+  for (const name of names2) {
+    name.innerHTML = playersName[1];
+  }
+};
+
 const setRightBoard = (currentComb, bonus, total) => {
   document.getElementById('current-comb').innerHTML = currentComb;
   document.getElementById('bonus').innerHTML = bonus;
@@ -138,8 +151,8 @@ const findOutWinner = () => {
   finishBtn.disabled = true;
   const res1 = parseInt(totals[0].innerHTML);
   const res2 = parseInt(totals[1].innerHTML);
-  if (res1 > res2) whoseTurn.innerHTML = 'Player 1 Won!';
-  else if (res1 < res2) whoseTurn.innerHTML = 'Player 2 Won!';
+  if (res1 > res2) whoseTurn.innerHTML = `${playersName[0]} Won!`;
+  else if (res1 < res2) whoseTurn.innerHTML = `${playersName[1]} Won!`;
   else whoseTurn.innerHTML = 'Draw!';
 };
 
@@ -159,7 +172,7 @@ const roll = async checkedDice => {
 };
 const firstRolling = async () => {
   throwsLeft.value = 3;
-  whoseTurn.innerHTML = `player ${player + 1} throws dices`;
+  whoseTurn.innerHTML = `${playersName[player]} throws dices`;
   setRightBoard('...', 0, 0);
   checkboxes.makeChecked(true);
   throwBtn.disabled = false;
@@ -252,4 +265,3 @@ const startGame = async () => {
   usedRadioButtons.init();
   await restart();
 };
-startGame();

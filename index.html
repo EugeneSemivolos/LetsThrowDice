@@ -45,8 +45,8 @@
   </header>
   <main>
     <div class="left-board">
-      <div>Total of the <span id>player 1</span>: <span id="total-1" class="values">0</span></div>
-      <div>Total of the <span>player 2</span>: <span id="total-2" class="values">0</span>
+      <div>Total of the <span class="name-1">player 1</span>: <span id="total-1" class="values">0</span></div>
+      <div>Total of the <span class="name-2">player 2</span>: <span id="total-2" class="values">0</span>
       </div>
       <hr>
       <div id="whose-turn">Whose turn</div>
@@ -94,7 +94,7 @@
             <td>Poker</td>
           </tr>
           <tr class="player">
-            <td id="name_1">Player_1</td>
+            <td class="name-1">Player_1</td>
             <td id="00">*</td>
             <td id="01">*</td>
             <td id="02">*</td>
@@ -105,7 +105,7 @@
             <td id="07">*</td>
           </tr>
           <tr class="player">
-            <td id="name_2">Player_2</td>
+            <td class="name-2">Player_2</td>
             <td id="10">*</td>
             <td id="11">*</td>
             <td id="12">*</td>
@@ -140,6 +140,22 @@
       <div>TOTAL: <span id="total" class="values">0</span></div>
     </div>
   </main>
+  <div class="enter-name">
+    <div class="container">
+      <form class="form" id="login">
+        <div class="form__title" style="font-size: 30px">Welcome!</div>
+        <div class="form__title">Registration</div>
+        <div class="form__input-group">
+          <input type="text" class="form__input" id="name-player1" autofocus placeholder="Name of player 1">
+        </div>
+        <div class="form__input-group">
+          <input type="text" class="form__input" id="name-player2" autofocus placeholder="Name of player 2">
+        </div>
+      </form>
+      <button class="form__button" onclick="register()">Start!</button>
+    </div>
+  </div>
+  <script src="scripts/register.js"></script>
   <script src="scripts/main.js"></script>
 </body>
 </html>

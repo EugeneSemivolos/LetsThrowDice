@@ -8,6 +8,14 @@
   --bg-table-odd: #0c4e0c;
   --bg-table-even: #0d550d;
   --border: 4px ridge #254e25;
+
+  --color-primary: rgba(0, 149, 121, 0.7);
+  --color-primary-dark: #007f67;
+  --color-secondary: #252c6a;
+  --color-error: #cc3333;
+  --color-success: #4bb544;
+  --border-radius: 4px;
+
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -274,4 +282,86 @@ tr:nth-child(odd) td {
 }
 .forgot:hover ~ .tip{
   transform: scale(71%);
+}
+
+.enter-name {
+  backdrop-filter: blur(10px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+}
+
+.container {
+  color: whitesmoke;
+  width: 400px;
+  margin: 13% auto 0 auto;
+  padding: 1.5rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  border: 2px inset #177417;
+  border-radius: 10px;
+  background-color: #1a711a;
+}
+
+.form > *:first-child{
+  margin-top: 0;
+}
+
+.form > *:last-child {
+  margin-bottom: 0;
+}
+
+.form__title {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.form__input-group {
+  margin-bottom: 1rem;
+}
+
+.form__input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  border-radius: var(--border-radius);
+  border:  1px solid #dddddd;
+  outline: none;
+  background-color: #eeeeee;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.form__input:focus{
+  border-color: var(--color-primary);
+  background: #ffffff;
+}
+
+.form__button{
+  width: 100%;
+  margin-top: 20px;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--border-radius);
+  outline: none;
+  cursor: pointer;
+  background: var(--color-primary);
+  transition: background 0.2s;
+}
+
+.form__button:hover {
+  background:  var(--color-primary-dark);
+}
+
+.form__button:active {
+  transform: scale(0.98);
+}
+
+.form__text {
+  text-align: center;
 }
