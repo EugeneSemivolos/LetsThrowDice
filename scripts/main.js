@@ -35,7 +35,7 @@ const firstRolling = async () => {
   radioButtons.show(usedRadioButtons, player);
 };
 
-const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
+const processComb = inputDices => {
   const numOfValues = new Array(NUM_OF.DICE_VALUE + 1).fill(0);
   const numOfComb = new Array(NUM_OF.DICE_VALUE).fill(0);
   //numOfComb means number of pairs or triplets or ect
@@ -47,6 +47,12 @@ const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
   for (let i = 1; i <= NUM_OF.DICE_VALUE; i++) {
     numOfComb[numOfValues[i]]++;
   }
+  return { numOfComb, numOfValues, sumOfValues };
+};
+
+const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
+  const { numOfComb, numOfValues, sumOfValues } = processComb(inputDices);
+
   if (numOfComb[5]) return ['Poker', 50, sumOfValues + 50];
   if (numOfComb[4]) return ['Four of a kind', 40, 4 * numOfValues.indexOf(4) + 40];
   if (numOfComb[3] && numOfComb[2]) return ['Full House', 30, sumOfValues + 30];
@@ -62,10 +68,9 @@ const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
 
 async function throwDices() {
   const checkedDices = checkboxes.getCheckedDices();
-  if (!checkedDices.length) {
-    console.error('check the dices you want to roll');
-    return;
-  }
+  if (!checkedDices.length)
+    return console.error('check the dices you want to roll');
+
   checkboxes.makeDisable(true);
   throwBtn.disabled = true;
   finishBtn.disabled = true;
@@ -92,14 +97,11 @@ const findOutWinner = () => {
   else whoseTurn.innerHTML = 'Draw!';
 };
 
-const isGameOver = () => !usedRadioButtons[1].includes(false);
-
 async function recordResult() {
   const checkedRadio = radioButtons.find(radio => radio.checked);
   if (!checkedRadio) return console.error('make your choice');
 
   const indexOfComb = COMBINATIONS.indexOf(currentComb.innerHTML).toString();
-
   if (checkedRadio.value === indexOfComb) {
     const prevSum = parseInt(totals[player].innerHTML);
     const total = parseInt(document.getElementById('total').innerHTML);
@@ -109,7 +111,9 @@ async function recordResult() {
     table[player][checkedRadio.value].innerHTML = '0';
   }
   usedRadioButtons[player][checkedRadio.value] = true;
-  if (isGameOver()) {
+
+  const isGameOver = !usedRadioButtons[1].includes(false);
+  if (isGameOver) {
     findOutWinner();
   } else {
     player = (player + 1) % 2;
