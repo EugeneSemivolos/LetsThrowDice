@@ -1,143 +1,7 @@
 'use strict';
 
-const NUM_OF_DICE_POSITIONS = 5;
-const NUM_OF_DICE_VALUE = 6;
-const NUM_OF_COMBINATIONS = 8;
-const NUM_OF_PLAYERS = 2;
-const COMBINATIONS = [
-  'Chance', 'Pair',
-  'Two Pair', 'Three of a kind',
-  'Straight', 'Full House',
-  'Four of a kind', 'Poker',
-];
-const DICE_SOURCES = [
-  './images/dice/dice_1.png',
-  './images/dice/dice_2.png',
-  './images/dice/dice_3.png',
-  './images/dice/dice_4.png',
-  './images/dice/dice_5.png',
-  './images/dice/dice_6.png',
-];
-const START_DELAY = 30;
-const DELAY_ACCELERATION = 1.04;
-const END_DELAY = 180;
-
 const playersName = [];
-
 let player = 0;
-const totals = [
-  document.getElementById('total-1'),
-  document.getElementById('total-2'),
-];
-totals.reset = () => {
-  totals[0].innerHTML = '0';
-  totals[1].innerHTML = '0';
-};
-const table = [[], []];
-table.init = () => {
-  for (let i = 0; i < NUM_OF_PLAYERS; i++) {
-    for (let j = 0; j < NUM_OF_COMBINATIONS; j++) {
-      const cell = document.getElementById(i.toString() + j.toString());
-      table[i].push(cell);
-    }
-  }
-};
-table.clear = () => {
-  for (const section of table) {
-    for (const cell of section) {
-      cell.innerHTML = '*';
-    }
-  }
-};
-
-const dices = document.getElementsByClassName('dice-value');
-dices.getValueOfDiceOnPos = pos => {
-  const diceSrs = dices[pos].src;
-  const len = diceSrs.length;
-  const posOfValueFromRight = 5;
-  return diceSrs[len - posOfValueFromRight];
-};
-dices.getValues = () => {
-  const values = [];
-  for (let i = 0; i < NUM_OF_DICE_POSITIONS; i++) {
-    values.push(dices.getValueOfDiceOnPos(i));
-  }
-  return values.map(e => parseInt(e));
-};
-
-const checkboxes = document.getElementsByClassName('checkbox');
-checkboxes.getCheckedDices = () => {
-  const values = [];
-  for (const checkbox of checkboxes) {
-    values.push(checkbox.checked);
-  }
-  return values.reduce((acc, cur, i) => (cur ? [...acc, i + 1] : acc), []);
-};
-checkboxes.map = callback => {
-  for (const checkbox of checkboxes) {
-    callback(checkbox);
-  }
-};
-checkboxes.makeChecked = isChecked => {
-  checkboxes.map(checkbox => { checkbox.checked = isChecked; });
-};
-checkboxes.makeDisable = isDisabled => {
-  checkboxes.map(checkbox => { checkbox.disabled = isDisabled; });
-};
-
-const whoseTurn = document.getElementById('whose-turn');
-const throwsLeft = document.getElementById('throws-left');
-Object.defineProperty(throwsLeft, 'value', {
-  get() {
-    return this.val;
-  },
-  set(x) {
-    this.innerHTML = x;
-    this.val = x;
-  },
-});
-
-const throwBtn = document.getElementById('throw-button');
-const finishBtn = document.getElementById('finish-button');
-const radioButtons = document.getElementsByClassName('radio');
-radioButtons.show = (usedRadios, player) => {
-  for (const [i, usedRadio] of usedRadios[player].entries()) {
-    if (!usedRadio) radioButtons[i].disabled = false;
-  }
-};
-radioButtons.disableAll = () => {
-  for (const radioButton of radioButtons) {
-    radioButton.disabled = true;
-  }
-};
-radioButtons.find = callback => {
-  for (const radioButton of radioButtons) {
-    if (callback(radioButton) === true) return radioButton;
-  }
-};
-
-const usedRadioButtons = [];
-usedRadioButtons.init = () => {
-  usedRadioButtons.push(
-    new Array(8).fill(false),
-    new Array(8).fill(false),
-  );
-};
-usedRadioButtons.reset = () => {
-  usedRadioButtons[0].fill(false);
-  usedRadioButtons[1].fill(false);
-};
-
-const setNames = () => {
-  const names1 = document.getElementsByClassName('name-1');
-  for (const name of names1) {
-    name.innerHTML = playersName[0];
-  }
-  const names2 = document.getElementsByClassName('name-2');
-  for (const name of names2) {
-    name.innerHTML = playersName[1];
-  }
-};
 
 const setRightBoard = (currentComb, bonus, total) => {
   document.getElementById('current-comb').innerHTML = currentComb;
@@ -145,31 +9,22 @@ const setRightBoard = (currentComb, bonus, total) => {
   document.getElementById('total').innerHTML = total;
 };
 
-const findOutWinner = () => {
-  checkboxes.makeDisable(true);
-  throwBtn.disabled = true;
-  finishBtn.disabled = true;
-  const res1 = parseInt(totals[0].innerHTML);
-  const res2 = parseInt(totals[1].innerHTML);
-  if (res1 > res2) whoseTurn.innerHTML = `${playersName[0]} Won!`;
-  else if (res1 < res2) whoseTurn.innerHTML = `${playersName[1]} Won!`;
-  else whoseTurn.innerHTML = 'Draw!';
-};
-
 const sleep = time => new Promise(resolve => {
   setTimeout(resolve, time);
 });
+
 const roll = async checkedDice => {
-  let delay = START_DELAY;
-  while (delay < END_DELAY) {
+  let delay = DELAY.START;
+  while (delay < DELAY.END) {
     const randNum = x => Math.floor(Math.random() * x);
     const randPos = checkedDice[randNum(checkedDice.length)] - 1;
-    const randDice = randNum(NUM_OF_DICE_VALUE);
+    const randDice = randNum(NUM_OF.DICE_VALUE);
     await sleep(delay);
     dices[randPos].src = DICE_SOURCES[randDice];
-    delay *= DELAY_ACCELERATION;
+    delay *= DELAY.ACCELERATION;
   }
 };
+
 const firstRolling = async () => {
   throwsLeft.value = 3;
   whoseTurn.innerHTML = `${playersName[player]} throws dices`;
@@ -181,15 +36,15 @@ const firstRolling = async () => {
 };
 
 const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
-  const numOfValues = new Array(NUM_OF_DICE_VALUE + 1).fill(0);
-  const numOfComb = new Array(NUM_OF_DICE_VALUE).fill(0);
+  const numOfValues = new Array(NUM_OF.DICE_VALUE + 1).fill(0);
+  const numOfComb = new Array(NUM_OF.DICE_VALUE).fill(0);
   //numOfComb means number of pairs or triplets or ect
   let sumOfValues = 0;
   for (const value of inputDices) {
     numOfValues[value]++;
     sumOfValues += value;
   }
-  for (let i = 1; i <= NUM_OF_DICE_VALUE; i++) {
+  for (let i = 1; i <= NUM_OF.DICE_VALUE; i++) {
     numOfComb[numOfValues[i]]++;
   }
   if (numOfComb[5]) return ['Poker', 50, sumOfValues + 50];
@@ -226,28 +81,40 @@ async function throwDices() {
   }
 }
 
+const findOutWinner = () => {
+  checkboxes.makeDisable(true);
+  throwBtn.disabled = true;
+  finishBtn.disabled = true;
+  const res1 = parseInt(totals[0].innerHTML);
+  const res2 = parseInt(totals[1].innerHTML);
+  if (res1 > res2) whoseTurn.innerHTML = `${playersName[0]} Won!`;
+  else if (res1 < res2) whoseTurn.innerHTML = `${playersName[1]} Won!`;
+  else whoseTurn.innerHTML = 'Draw!';
+};
+
+const isGameOver = () => !usedRadioButtons[1].includes(false);
+
 async function recordResult() {
   const checkedRadio = radioButtons.find(radio => radio.checked);
   if (!checkedRadio) return console.error('make your choice');
-  const checkedValue = checkedRadio.value;
-  const currentComb = document.getElementById('current-comb').innerHTML;
-  const currentTotal = document.getElementById('total').innerHTML;
-  const indexOfComb = COMBINATIONS.indexOf(currentComb).toString();
-  if (checkedValue === indexOfComb) {
+
+  const indexOfComb = COMBINATIONS.indexOf(currentComb.innerHTML).toString();
+
+  if (checkedRadio.value === indexOfComb) {
     const prevSum = parseInt(totals[player].innerHTML);
     const total = parseInt(document.getElementById('total').innerHTML);
     totals[player].innerHTML = (prevSum + total).toString();
-    table[player][checkedValue].innerHTML = currentTotal;
+    table[player][checkedRadio.value].innerHTML = currentTotal.innerHTML;
   } else {
-    table[player][checkedValue].innerHTML = '0';
+    table[player][checkedRadio.value].innerHTML = '0';
   }
-  usedRadioButtons[player][checkedValue] = true;
-  if (usedRadioButtons[1].includes(false)) {
+  usedRadioButtons[player][checkedRadio.value] = true;
+  if (isGameOver()) {
+    findOutWinner();
+  } else {
     player = (player + 1) % 2;
     radioButtons.disableAll();
     await firstRolling();
-  } else {
-    findOutWinner();
   }
 }
 
@@ -259,9 +126,3 @@ async function restart() {
   totals.reset();
   await firstRolling();
 }
-
-const startGame = async () => {
-  table.init();
-  usedRadioButtons.init();
-  await restart();
-};
