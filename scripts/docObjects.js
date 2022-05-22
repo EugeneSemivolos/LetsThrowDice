@@ -3,8 +3,8 @@ import { NUM_OF } from './config.js';
 //header
 const restartButton = document.getElementById('restart');
 const playersName = [
-  document.querySelector('.name-1'),
-  document.querySelector('.name-2'),
+  'player 1',
+  'player 2',
 ];
 
 //left board

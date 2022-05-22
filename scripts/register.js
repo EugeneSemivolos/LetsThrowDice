@@ -1,4 +1,4 @@
-import { table, usedRadioButtons } from './docObjects.js';
+import { table, usedRadioButtons, playersName } from './docObjects.js';
 import { restart } from './main.js';
 
 const hideForm = () => {
@@ -14,6 +14,8 @@ const setNames = (name1, name2) => {
   for (const name of names2) {
     name.innerHTML = name2;
   }
+  playersName[0] = name1;
+  playersName[1] = name2;
 };
 
 const startGame = async () => {

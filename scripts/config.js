@@ -21,7 +21,7 @@ const DICE_SOURCES = [
 const DELAY = {
   START: 30,
   ACCELERATION: 1.04,
-  END: 180,
+  END: 150,
 };
 
 export { NUM_OF, COMBINATIONS, DELAY, DICE_SOURCES };
