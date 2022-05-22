@@ -1,45 +1,42 @@
 import { NUM_OF, COMBINATIONS, DICE_SOURCES, DELAY } from './config.js';
-import { totals, whoseTurn, throwsLeft, dices } from './docObjects.js';
-import { checkboxes, throwBtn, finishBtn, table } from './docObjects.js';
-import { radioButtons, usedRadioButtons } from './docObjects.js';
-import { currentTotal, currentComb } from './docObjects.js';
+import * as doc from './docObjects.js';
 
-const playersName = [];
 let player = 0;
 
-const setRightBoard = (currentComb, bonus, total) => {
-  document.getElementById('current-comb').innerHTML = currentComb;
-  document.getElementById('bonus').innerHTML = bonus;
-  document.getElementById('total').innerHTML = total;
+const setRightBoard = (curComb, bonus, total) => {
+  doc.currentComb.innerHTML = curComb;
+  doc.currentBonus.innerHTML = bonus;
+  doc.currentTotal.innerHTML = total;
 };
 
-const sleep = time => new Promise(resolve => {
+const sleep = (time) => new Promise((resolve) => {
   setTimeout(resolve, time);
 });
 
-const roll = async checkedDice => {
+const roll = async (checkedDice) => {
   let delay = DELAY.START;
+  const randNum = (max) => Math.floor(Math.random() * max);
+
   while (delay < DELAY.END) {
-    const randNum = x => Math.floor(Math.random() * x);
     const randPos = checkedDice[randNum(checkedDice.length)] - 1;
     const randDice = randNum(NUM_OF.DICE_VALUE);
     await sleep(delay);
-    dices[randPos].src = DICE_SOURCES[randDice];
+    doc.dices[randPos].src = DICE_SOURCES[randDice];
     delay *= DELAY.ACCELERATION;
   }
 };
 
 const firstRolling = async () => {
-  throwsLeft.value = 3;
-  whoseTurn.innerHTML = `${playersName[player]} throws dices`;
+  doc.throwsLeft.value = 3;
+  doc.whoseTurn.innerHTML = `${doc.playersName[player]} throws dices`;
   setRightBoard('...', 0, 0);
-  checkboxes.makeChecked(true);
-  throwBtn.disabled = false;
+  doc.checkboxes.makeChecked(true);
+  doc.throwBtn.disabled = false;
   await throwDices();
-  radioButtons.show(usedRadioButtons, player);
+  doc.radioButtons.show(doc.usedRadioButtons, player);
 };
 
-const processComb = inputDices => {
+const processComb = (inputDices) => {
   const numOfValues = new Array(NUM_OF.DICE_VALUE + 1).fill(0);
   const numOfComb = new Array(NUM_OF.DICE_VALUE).fill(0);
   //numOfComb means number of pairs or triplets or ect
@@ -54,9 +51,10 @@ const processComb = inputDices => {
   return { numOfComb, numOfValues, sumOfValues };
 };
 
-const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
+const checkComb = (inputDices) => { //return array [nameComb, bonus, resultSum]
   const { numOfComb, numOfValues, sumOfValues } = processComb(inputDices);
   const [,, pair, triple, square, poker] = numOfComb;
+
   if (poker) return ['Poker', 50, sumOfValues + 50];
   if (square) return ['Four of a kind', 40, 4 * numOfValues.indexOf(4) + 40];
   if (triple && pair) return ['Full House', 30, sumOfValues + 30];
@@ -71,71 +69,72 @@ const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
 };
 
 async function throwDices() {
-  const checkedDices = checkboxes.getCheckedDices();
+  const checkedDices = doc.checkboxes.getCheckedDices();
   if (!checkedDices.length)
     return console.error('check the dices you want to roll');
 
-  checkboxes.makeDisable(true);
-  throwBtn.disabled = true;
-  finishBtn.disabled = true;
+  doc.checkboxes.makeDisable(true);
+  doc.throwBtn.disabled = true;
+  doc.finishBtn.disabled = true;
   await roll(checkedDices);
-  const values = dices.getValues();
+  const values = doc.dices.getValues();
   setRightBoard(...checkComb(values));
-  finishBtn.disabled = false;
-  throwsLeft.value--;
-  checkboxes.makeChecked(false);
-  if (throwsLeft.value !== 0) {
-    throwBtn.disabled = false;
-    checkboxes.makeDisable(false);
+  doc.finishBtn.disabled = false;
+  doc.throwsLeft.value--;
+  doc.checkboxes.makeChecked(false);
+  if (doc.throwsLeft.value !== 0) {
+    doc.throwBtn.disabled = false;
+    doc.checkboxes.makeDisable(false);
   }
 }
 
 const findOutWinner = () => {
-  checkboxes.makeDisable(true);
-  throwBtn.disabled = true;
-  finishBtn.disabled = true;
-  const res1 = parseInt(totals[0].innerHTML);
-  const res2 = parseInt(totals[1].innerHTML);
-  if (res1 > res2) whoseTurn.innerHTML = `${playersName[0]} Won!`;
-  else if (res1 < res2) whoseTurn.innerHTML = `${playersName[1]} Won!`;
-  else whoseTurn.innerHTML = 'Draw!';
+  doc.checkboxes.makeDisable(true);
+  doc.throwBtn.disabled = true;
+  doc.finishBtn.disabled = true;
+  const res1 = parseInt(doc.totals[0].innerHTML);
+  const res2 = parseInt(doc.totals[1].innerHTML);
+  if (res1 > res2) doc.whoseTurn.innerHTML = `${doc.playersName[0]} Won!`;
+  else if (res1 < res2) doc.whoseTurn.innerHTML = `${doc.playersName[1]} Won!`;
+  else doc.whoseTurn.innerHTML = 'Draw!';
 };
 
 async function recordResult() {
-  const checkedRadio = radioButtons.find(radio => radio.checked);
+  const checkedRadio = doc.radioButtons.find((radio) => radio.checked);
   if (!checkedRadio) return console.error('make your choice');
 
-  const indexOfComb = COMBINATIONS.indexOf(currentComb.innerHTML).toString();
+  const indexOfComb = COMBINATIONS.indexOf(doc.currentComb.innerHTML).toString();
   if (checkedRadio.value === indexOfComb) {
-    const prevSum = parseInt(totals[player].innerHTML);
+    const prevSum = parseInt(doc.totals[player].innerHTML);
     const total = parseInt(document.getElementById('total').innerHTML);
-    totals[player].innerHTML = (prevSum + total).toString();
-    table[player][checkedRadio.value].innerHTML = currentTotal.innerHTML;
+    doc.totals[player].innerHTML = (prevSum + total).toString();
+    doc.table[player][checkedRadio.value].innerHTML = doc.currentTotal.innerHTML;
   } else {
-    table[player][checkedRadio.value].innerHTML = '0';
+    doc.table[player][checkedRadio.value].innerHTML = '0';
   }
-  usedRadioButtons[player][checkedRadio.value] = true;
+  doc.usedRadioButtons[player][checkedRadio.value] = true;
 
-  const isGameOver = !usedRadioButtons[1].includes(false);
+  const isGameOver = !doc.usedRadioButtons[1].includes(false);
   if (isGameOver) {
     findOutWinner();
   } else {
     player = (player + 1) % 2;
-    radioButtons.disableAll();
+    doc.radioButtons.disableAll();
     await firstRolling();
   }
 }
 
 export async function restart() {
-  table.clear();
+  doc.table.clear();
   player = 0;
-  usedRadioButtons.reset();
-  radioButtons.disableAll();
-  totals.reset();
+  doc.usedRadioButtons.reset();
+  doc.radioButtons.disableAll();
+  doc.totals.reset();
   await firstRolling();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  throwBtn.addEventListener('click', throwDices);
-  finishBtn.addEventListener('click', recordResult);
+  doc.throwBtn.addEventListener('click', throwDices);
+  doc.finishBtn.addEventListener('click', recordResult);
+  doc.restartButton.addEventListener('click', restart);
 });

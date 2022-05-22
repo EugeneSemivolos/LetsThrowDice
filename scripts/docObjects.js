@@ -1,5 +1,12 @@
 import { NUM_OF } from './config.js';
 
+//header
+const restartButton = document.getElementById('restart');
+const playersName = [
+  document.querySelector('.name-1'),
+  document.querySelector('.name-2'),
+];
+
 //left board
 const totals = [
   document.getElementById('total-1'),
@@ -25,7 +32,7 @@ Object.defineProperty(throwsLeft, 'value', {
 });
 
 const dices = document.getElementsByClassName('dice-value');
-dices.getValueOfDiceOnPos = pos => {
+dices.getValueOfDiceOnPos = (pos) => {
   const diceSrs = dices[pos].src;
   const len = diceSrs.length;
   const posOfValueFromRight = 5;
@@ -36,7 +43,7 @@ dices.getValues = () => {
   for (let i = 0; i < NUM_OF.DICE_POSITIONS; i++) {
     values.push(dices.getValueOfDiceOnPos(i));
   }
-  return values.map(e => parseInt(e));
+  return values.map((e) => parseInt(e));
 };
 
 const checkboxes = document.getElementsByClassName('checkbox');
@@ -47,16 +54,16 @@ checkboxes.getCheckedDices = () => {
   }
   return values.reduce((acc, cur, i) => (cur ? [...acc, i + 1] : acc), []);
 };
-checkboxes.map = callback => {
+checkboxes.map = (callback) => {
   for (const checkbox of checkboxes) {
     callback(checkbox);
   }
 };
-checkboxes.makeChecked = isChecked => {
-  checkboxes.map(checkbox => { checkbox.checked = isChecked; });
+checkboxes.makeChecked = (isChecked) => {
+  checkboxes.map((checkbox) => { checkbox.checked = isChecked; });
 };
-checkboxes.makeDisable = isDisabled => {
-  checkboxes.map(checkbox => { checkbox.disabled = isDisabled; });
+checkboxes.makeDisable = (isDisabled) => {
+  checkboxes.map((checkbox) => { checkbox.disabled = isDisabled; });
 };
 
 const throwBtn = document.getElementById('throw-button');
@@ -90,7 +97,7 @@ radioButtons.disableAll = () => {
     radioButton.disabled = true;
   }
 };
-radioButtons.find = callback => {
+radioButtons.find = (callback) => {
   for (const radioButton of radioButtons) {
     if (callback(radioButton) === true) return radioButton;
   }
@@ -111,6 +118,8 @@ usedRadioButtons.reset = () => {
 //right board
 const currentTotal = document.getElementById('total');
 const currentComb = document.getElementById('current-comb');
+const currentBonus = document.getElementById('bonus');
 
-export { totals, whoseTurn, throwsLeft, dices, checkboxes, throwBtn, finishBtn,
-  table, radioButtons, usedRadioButtons, currentTotal, currentComb };
+export { playersName, totals, whoseTurn, throwsLeft, dices, checkboxes,
+  throwBtn, finishBtn, table, radioButtons, usedRadioButtons,
+  currentTotal, currentComb, currentBonus, restartButton };

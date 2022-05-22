@@ -23,12 +23,14 @@ const startGame = async () => {
 };
 
 async function register() {
-  const name1 = document.getElementById('name-player1').value;
-  const name2 = document.getElementById('name-player2').value;
+  const name1 = document.getElementById('input-name1').value;
+  const name2 = document.getElementById('input-name2').value;
   if (name1 && name2) {
     hideForm();
     setNames(name1, name2);
     await startGame();
+  } else {
+    console.error('Enter name!');
   }
 }
 
