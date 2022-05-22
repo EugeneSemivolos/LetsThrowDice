@@ -73,6 +73,7 @@ async function throwDices() {
   if (!checkedDices.length)
     return console.error('check the dices you want to roll');
 
+  doc.radioButtons.clear();
   doc.checkboxes.makeDisable(true);
   doc.throwBtn.disabled = true;
   doc.finishBtn.disabled = true;

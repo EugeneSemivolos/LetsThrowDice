@@ -92,6 +92,11 @@ radioButtons.show = (usedRadios, player) => {
     if (!usedRadio) radioButtons[i].disabled = false;
   }
 };
+radioButtons.clear = () => {
+  for (const radioButton of radioButtons) {
+    radioButton.checked = 0;
+  }
+};
 radioButtons.disableAll = () => {
   for (const radioButton of radioButtons) {
     radioButton.disabled = true;
