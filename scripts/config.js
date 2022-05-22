@@ -1,5 +1,3 @@
-'use strict';
-
 const NUM_OF = {
   DICE_POSITIONS: 5,
   DICE_VALUE: 6,
@@ -25,3 +23,5 @@ const DELAY = {
   ACCELERATION: 1.04,
   END: 180,
 };
+
+export { NUM_OF, COMBINATIONS, DELAY, DICE_SOURCES };

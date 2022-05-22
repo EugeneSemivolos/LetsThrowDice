@@ -76,8 +76,8 @@
         </div>
       </div>
       <div class="throw-finish">
-        <button id="throw-button" onclick="throwDices()">Throw!</button>
-        <button id="finish-button" onclick="recordResult()">Record</button>
+        <button id="throw-button">Throw!</button>
+        <button id="finish-button">Record</button>
       </div>
       <div class="record">
         <div class="record-label">Records</div>
@@ -152,12 +152,10 @@
           <input type="text" class="form__input" id="name-player2" autofocus placeholder="Name of player 2">
         </div>
       </form>
-      <button class="form__button" onclick="register()">Start!</button>
+      <button class="form__button">Start!</button>
     </div>
   </div>
-  <script src="scripts/register.js"></script>
-  <script src="scripts/main.js"></script>
-  <script src="scripts/config.js"></script>
-  <script src="scripts/docObjects.js"></script>
+  <script type='module' src="scripts/register.js"></script>
+  <script type='module' src="scripts/main.js"></script>
 </body>
 </html>

@@ -1,4 +1,8 @@
-'use strict';
+import { NUM_OF, COMBINATIONS, DICE_SOURCES, DELAY } from './config.js';
+import { totals, whoseTurn, throwsLeft, dices } from './docObjects.js';
+import { checkboxes, throwBtn, finishBtn, table } from './docObjects.js';
+import { radioButtons, usedRadioButtons } from './docObjects.js';
+import { currentTotal, currentComb } from './docObjects.js';
 
 const playersName = [];
 let player = 0;
@@ -52,16 +56,16 @@ const processComb = inputDices => {
 
 const checkComb = inputDices => { //return array [nameComb, bonus, resultSum]
   const { numOfComb, numOfValues, sumOfValues } = processComb(inputDices);
-
-  if (numOfComb[5]) return ['Poker', 50, sumOfValues + 50];
-  if (numOfComb[4]) return ['Four of a kind', 40, 4 * numOfValues.indexOf(4) + 40];
-  if (numOfComb[3] && numOfComb[2]) return ['Full House', 30, sumOfValues + 30];
-  if (numOfComb[3]) return ['Three of a kind', 15, 3 * numOfValues.indexOf(3) + 15];
-  if (numOfComb[2] === 2) {
+  const [,, pair, triple, square, poker] = numOfComb;
+  if (poker) return ['Poker', 50, sumOfValues + 50];
+  if (square) return ['Four of a kind', 40, 4 * numOfValues.indexOf(4) + 40];
+  if (triple && pair) return ['Full House', 30, sumOfValues + 30];
+  if (triple) return ['Three of a kind', 15, 3 * numOfValues.indexOf(3) + 15];
+  if (pair === 2) {
     const sum = 2 * (numOfValues.indexOf(2) + numOfValues.lastIndexOf(2)) + 10;
     return ['Two Pair', 10, sum];
   }
-  if (numOfComb[2]) return ['Pair', 5, 2 * numOfValues.indexOf(2) + 5];
+  if (pair) return ['Pair', 5, 2 * numOfValues.indexOf(2) + 5];
   if (numOfValues.slice(2, 6).includes(0)) return ['Chance', 0, sumOfValues];
   return ['Straight', 20, sumOfValues + 20];
 };
@@ -122,7 +126,7 @@ async function recordResult() {
   }
 }
 
-async function restart() {
+export async function restart() {
   table.clear();
   player = 0;
   usedRadioButtons.reset();
@@ -130,3 +134,8 @@ async function restart() {
   totals.reset();
   await firstRolling();
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  throwBtn.addEventListener('click', throwDices);
+  finishBtn.addEventListener('click', recordResult);
+});

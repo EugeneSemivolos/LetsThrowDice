@@ -1,17 +1,18 @@
-'use strict';
+import { table, usedRadioButtons } from './docObjects.js';
+import { restart } from './main.js';
 
 const hideForm = () => {
-  document.getElementsByClassName('enter-name')[0].style.transform = 'scale(0)';
+  document.querySelector('.enter-name').style.transform = 'scale(0)';
 };
 
-const setNames = () => {
+const setNames = (name1, name2) => {
   const names1 = document.getElementsByClassName('name-1');
   for (const name of names1) {
-    name.innerHTML = playersName[0];
+    name.innerHTML = name1;
   }
   const names2 = document.getElementsByClassName('name-2');
   for (const name of names2) {
-    name.innerHTML = playersName[1];
+    name.innerHTML = name2;
   }
 };
 
@@ -25,9 +26,13 @@ async function register() {
   const name1 = document.getElementById('name-player1').value;
   const name2 = document.getElementById('name-player2').value;
   if (name1 && name2) {
-    playersName.push(name1, name2);
     hideForm();
-    setNames();
+    setNames(name1, name2);
     await startGame();
   }
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  const registerButton = document.querySelector('.form__button');
+  registerButton.addEventListener('click', register);
+});

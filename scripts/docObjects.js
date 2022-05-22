@@ -1,4 +1,4 @@
-'use strict';
+import { NUM_OF } from './config.js';
 
 //left board
 const totals = [
@@ -111,3 +111,6 @@ usedRadioButtons.reset = () => {
 //right board
 const currentTotal = document.getElementById('total');
 const currentComb = document.getElementById('current-comb');
+
+export { totals, whoseTurn, throwsLeft, dices, checkboxes, throwBtn, finishBtn,
+  table, radioButtons, usedRadioButtons, currentTotal, currentComb };
