@@ -141,5 +141,4 @@ window.addEventListener('DOMContentLoaded', () => {
   doc.finishBtn.addEventListener('click', recordResult);
   doc.restartButton.addEventListener('click', restart);
 });
-=======
 
