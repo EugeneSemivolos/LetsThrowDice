@@ -5,17 +5,14 @@ const hideForm = () => {
   document.querySelector('.enter-name').style.transform = 'scale(0)';
 };
 
-const setNames = (name1, name2) => {
-  const names1 = document.getElementsByClassName('name-1');
-  for (const name of names1) {
-    name.innerHTML = name1;
+const setNames = (...inputNames) => {
+  for (const [i, inputName] of inputNames.entries()) {
+    const nameFields = document.querySelectorAll(`.name-${i + 1}`);
+    for (const nameField of nameFields) {
+      nameField.innerHTML = inputName;
+    }
+    playersName[i] = inputName;
   }
-  const names2 = document.getElementsByClassName('name-2');
-  for (const name of names2) {
-    name.innerHTML = name2;
-  }
-  playersName[0] = name1;
-  playersName[1] = name2;
 };
 
 const startGame = async () => {
