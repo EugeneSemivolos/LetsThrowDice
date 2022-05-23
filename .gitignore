@@ -1,0 +1,5 @@
+.idea
+scripts/node_modules
+scripts/package.json
+scripts/package-lock.json
+scripts/.eslintrc.json

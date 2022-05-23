@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <link rel="stylesheet" href="style/main.css">
-  <title>Document</title>
+  <title>Let's Throw dice</title>
 </head>
 <body>
   <header>
@@ -18,58 +18,66 @@
           How to Play?
         </div>
         <div style="margin-left: 16px">
-          Добро пожаловать в игру для двоих "Let's Throw Dice!"
+          Вітаю у грі "Let's Throw Dice!"
+          <br><br>
+          Це гра для двох. Виграє той, хто отримає найбільшу кількість очок!
           <br>
-          sdfsdfsdf
+          Щоб отримати очки, необхідно зібрати комбінації з кубиків (від Chance до Poker)
+          <br><br>
+          Усього 8 раундів. У кожному раунді гравець може кинути до 3-х разів
+          5 гральних кубиків заради отримання кращої комбінації. Якщо гравець вирішив зупинитися на даній комбінації,
+          він записує кількість очок, отриманих за комбінацію.
+          <br><br>
+          <strong>Одній комбінації відповідає одна кількість очок!</strong> Наприклад, якщо комбінація
+          Straight вже має результат у гравця, то гравець не має права перезеписати результат. Треба
+          обрати іншу комбінацію, де буде результат 0, або перекинути кубики. Очки обчислюються як сума
+          всіх кубиків, що входять у комбінацію, + бонус за комбінацію.
           <br>
-          sdfsdfsdf
           <br>
-          sdfsdfsdf
-          <br>
-          sdfsdfsdf
+          <div style="text-align: center">Бажаю гарної гри!</div>
         </div>
       </div>
     </div>
-    <button onclick="restart()" id="restart"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+    <button id="restart"><i class="fa-solid fa-arrow-rotate-right"></i></button>
     <div class="label">
       <i class="fa-solid fa-dice"></i> Let's throw Dice! <i class="fa-solid fa-dice"></i>
     </div>
   </header>
   <main>
     <div class="left-board">
-      <div>Total of the <span>player 1</span>: <span id="total-first" class="values">0</span></div>
-      <div>Total of the <span>player 2</span>: <span id="total-second" class="values">0</span>
+      <div>Total of the <span class="name-1">player 1</span>: <span id="total-1" class="values">0</span></div>
+      <div>Total of the <span class="name-2">player 2</span>: <span id="total-2" class="values">0</span>
       </div>
       <hr>
-      <div id="message">Whose turn</div>
+      <div id="whose-turn">Whose turn</div>
     </div>
     <div class="center-panel">
-      <div class="remain">Throws left: <span>2</span></div>
+      <div class="remain">Throws left: <span id="throws-left">3</span></div>
       <div class="dice">
         <div class="dice-image">
-          <img src="./images/dice/dice_1.png" alt="pos_1" width="100px">
-          <input type="checkbox" name="dice" id="pos_1">
+          <img src="./images/dice/dice_1.png" alt="pos_1" class="dice-value" width="100px">
+          <input type="checkbox" name="dice" id="pos_1" class="checkbox">
         </div>
         <div class="dice-image">
-          <img src="./images/dice/dice_2.png" alt="pos_2" width="100px">
-          <input type="checkbox" name="dice" id="pos_2">
+          <img src="./images/dice/dice_2.png" alt="pos_2" class="dice-value" width="100px">
+          <input type="checkbox" name="dice" id="pos_2" class="checkbox">
         </div>
         <div class="dice-image">
-          <img src="./images/dice/dice_3.png" alt="pos_3" width="100px">
-          <input type="checkbox" name="dice" id="pos_3">
+          <img src="./images/dice/dice_3.png" alt="pos_3" class="dice-value" width="100px">
+          <input type="checkbox" name="dice" id="pos_3" class="checkbox">
         </div>
         <div class="dice-image">
-          <img src="./images/dice/dice_4.png" alt="pos_4" width="100px">
-          <input type="checkbox" name="dice" id="pos_4">
+          <img src="./images/dice/dice_4.png" alt="pos_4" class="dice-value" width="100px">
+          <input type="checkbox" name="dice" id="pos_4" class="checkbox">
         </div>
         <div class="dice-image">
-          <img src="./images/dice/dice_5.png" alt="pos_5" width="100px">
-          <input type="checkbox" name="dice" id="pos_5">
+          <img src="./images/dice/dice_5.png" alt="pos_5" class="dice-value" width="100px">
+          <input type="checkbox" name="dice" id="pos_5" class="checkbox">
         </div>
       </div>
       <div class="throw-finish">
-        <button id="throw-button" onclick="throwDices()">Throw!</button>
-        <button>Finish</button>
+        <button id="throw-button">Throw!</button>
+        <button id="finish-button">Record</button>
       </div>
       <div class="record">
         <div class="record-label">Records</div>
@@ -86,37 +94,37 @@
             <td>Poker</td>
           </tr>
           <tr class="player">
-            <td id="name_1">Player_1</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
+            <td class="name-1">Player_1</td>
+            <td id="00">*</td>
+            <td id="01">*</td>
+            <td id="02">*</td>
+            <td id="03">*</td>
+            <td id="04">*</td>
+            <td id="05">*</td>
+            <td id="06">*</td>
+            <td id="07">*</td>
           </tr>
           <tr class="player">
-            <td id="name_2">Player_2</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
-            <td>*</td>
+            <td class="name-2">Player_2</td>
+            <td id="10">*</td>
+            <td id="11">*</td>
+            <td id="12">*</td>
+            <td id="13">*</td>
+            <td id="14">*</td>
+            <td id="15">*</td>
+            <td id="16">*</td>
+            <td id="17">*</td>
           </tr>
           <tr>
             <td style="font-size: 20px">Choice</td>
-            <td><input type="radio" name="record" id="chance"></td>
-            <td><input type="radio" name="record" id="pair"></td>
-            <td><input type="radio" name="record" id="two-pair"></td>
-            <td><input type="radio" name="record" id="three"></td>
-            <td><input type="radio" name="record" id="straight"></td>
-            <td><input type="radio" name="record" id="full-house"></td>
-            <td><input type="radio" name="record" id="four"></td>
-            <td><input type="radio" name="record" id="poker"></td>
+            <td><input type="radio" name="record" class="radio" value="0"></td>
+            <td><input type="radio" name="record" class="radio" value="1"></td>
+            <td><input type="radio" name="record" class="radio" value="2"></td>
+            <td><input type="radio" name="record" class="radio" value="3"></td>
+            <td><input type="radio" name="record" class="radio" value="4"></td>
+            <td><input type="radio" name="record" class="radio" value="5"></td>
+            <td><input type="radio" name="record" class="radio" value="6"></td>
+            <td><input type="radio" name="record" class="radio" value="7"></td>
           </tr>
         </table>
         <div class="forgot">Forgot combinations?</div>
@@ -132,6 +140,22 @@
       <div>TOTAL: <span id="total" class="values">0</span></div>
     </div>
   </main>
-  <script src="scripts/main.js"></script>
+  <div class="enter-name">
+    <div class="container">
+      <form class="form" id="login">
+        <div class="form__title" style="font-size: 30px">Welcome!</div>
+        <div class="form__title">Registration</div>
+        <div class="form__input-group">
+          <input type="text" class="form__input" id="input-name1" autofocus placeholder="Name of player 1">
+        </div>
+        <div class="form__input-group">
+          <input type="text" class="form__input" id="input-name2" autofocus placeholder="Name of player 2">
+        </div>
+      </form>
+      <button class="form__button">Start!</button>
+    </div>
+  </div>
+  <script type='module' src="scripts/register.js"></script>
+  <script type='module' src="scripts/main.js"></script>
 </body>
 </html>
