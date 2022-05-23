@@ -46,24 +46,24 @@ dices.getValues = () => {
   return values.map((e) => parseInt(e));
 };
 
-const checkboxes = document.getElementsByClassName('checkbox');
-checkboxes.getCheckedDices = () => {
+const checkboxes = document.querySelectorAll('.checkbox');
+checkboxes.map = (callback) => {
   const values = [];
   for (const checkbox of checkboxes) {
-    values.push(checkbox.checked);
+    values.push(callback(checkbox));
   }
-  return values.reduce((acc, cur, i) => (cur ? [...acc, i + 1] : acc), []);
+  return values;
 };
-checkboxes.map = (callback) => {
-  for (const checkbox of checkboxes) {
-    callback(checkbox);
+checkboxes.getCheckedDices = () => {
+  const result = [];
+  const values = checkboxes.map((checkbox) => checkbox.checked);
+  for (const [i, isChecked] of values.entries()) {
+    if (isChecked) result.push(i + 1);
   }
+  return result;
 };
-checkboxes.makeChecked = (isChecked) => {
-  checkboxes.map((checkbox) => { checkbox.checked = isChecked; });
-};
-checkboxes.makeDisable = (isDisabled) => {
-  checkboxes.map((checkbox) => { checkbox.disabled = isDisabled; });
+checkboxes.set = (key, value) => {
+  checkboxes.map((checkbox) => { checkbox[key] = value; });
 };
 
 const throwBtn = document.getElementById('throw-button');
@@ -86,20 +86,15 @@ table.clear = () => {
   }
 };
 
-const radioButtons = document.getElementsByClassName('radio');
+const radioButtons = document.querySelectorAll('.radio');
 radioButtons.show = (usedRadios, player) => {
   for (const [i, usedRadio] of usedRadios[player].entries()) {
     if (!usedRadio) radioButtons[i].disabled = false;
   }
 };
-radioButtons.clear = () => {
+radioButtons.set = (key, value) => {
   for (const radioButton of radioButtons) {
-    radioButton.checked = 0;
-  }
-};
-radioButtons.disableAll = () => {
-  for (const radioButton of radioButtons) {
-    radioButton.disabled = true;
+    radioButton[key] = value;
   }
 };
 radioButtons.find = (callback) => {
@@ -111,8 +106,8 @@ radioButtons.find = (callback) => {
 const usedRadioButtons = [];
 usedRadioButtons.init = () => {
   usedRadioButtons.push(
-    new Array(8).fill(false),
-    new Array(8).fill(false),
+    new Array(NUM_OF.COMBINATIONS).fill(false),
+    new Array(NUM_OF.COMBINATIONS).fill(false),
   );
 };
 usedRadioButtons.reset = () => {

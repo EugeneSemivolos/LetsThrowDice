@@ -18,19 +18,19 @@ const roll = async (checkedDice) => {
   const randNum = (max) => Math.floor(Math.random() * max);
 
   while (delay < DELAY.END) {
+    await sleep(delay);
     const randPos = checkedDice[randNum(checkedDice.length)] - 1;
     const randDice = randNum(NUM_OF.DICE_VALUE);
-    await sleep(delay);
     doc.dices[randPos].src = DICE_SOURCES[randDice];
     delay *= DELAY.ACCELERATION;
   }
 };
 
 const firstRolling = async () => {
-  doc.throwsLeft.value = 3;
+  doc.throwsLeft.value = NUM_OF.ROUNDS;
   doc.whoseTurn.innerHTML = `${doc.playersName[player]} throws dices`;
   setRightBoard('...', 0, 0);
-  doc.checkboxes.makeChecked(true);
+  doc.checkboxes.set('checked', true);
   doc.throwBtn.disabled = false;
   await throwDices();
   doc.radioButtons.show(doc.usedRadioButtons, player);
@@ -73,24 +73,26 @@ async function throwDices() {
   if (!checkedDices.length)
     return console.error('check the dices you want to roll');
 
-  doc.radioButtons.clear();
-  doc.checkboxes.makeDisable(true);
+  doc.radioButtons.set('checked', 0);
+  doc.checkboxes.set('disabled', true);
   doc.throwBtn.disabled = true;
   doc.finishBtn.disabled = true;
+
   await roll(checkedDices);
+
   const values = doc.dices.getValues();
   setRightBoard(...checkComb(values));
-  doc.finishBtn.disabled = false;
   doc.throwsLeft.value--;
-  doc.checkboxes.makeChecked(false);
+  doc.checkboxes.set('checked', false);
+  doc.finishBtn.disabled = false;
   if (doc.throwsLeft.value !== 0) {
     doc.throwBtn.disabled = false;
-    doc.checkboxes.makeDisable(false);
+    doc.checkboxes.set('disabled', false);
   }
 }
 
 const findOutWinner = () => {
-  doc.checkboxes.makeDisable(true);
+  doc.checkboxes.set('disabled', true);
   doc.throwBtn.disabled = true;
   doc.finishBtn.disabled = true;
   const res1 = parseInt(doc.totals[0].innerHTML);
@@ -104,8 +106,8 @@ async function recordResult() {
   const checkedRadio = doc.radioButtons.find((radio) => radio.checked);
   if (!checkedRadio) return console.error('make your choice');
 
-  const indexOfComb = COMBINATIONS.indexOf(doc.currentComb.innerHTML).toString();
-  if (checkedRadio.value === indexOfComb) {
+  const indexOfComb = COMBINATIONS.indexOf(doc.currentComb.innerHTML);
+  if (checkedRadio.value === indexOfComb.toString()) {
     const prevSum = parseInt(doc.totals[player].innerHTML);
     const total = parseInt(document.getElementById('total').innerHTML);
     doc.totals[player].innerHTML = (prevSum + total).toString();
@@ -120,16 +122,16 @@ async function recordResult() {
     findOutWinner();
   } else {
     player = (player + 1) % 2;
-    doc.radioButtons.disableAll();
+    doc.radioButtons.set('disabled', true);
     await firstRolling();
   }
 }
 
 export async function restart() {
-  doc.table.clear();
+  doc.radioButtons.set('checked', 0);
   player = 0;
   doc.usedRadioButtons.reset();
-  doc.radioButtons.disableAll();
+  doc.radioButtons.set('disabled', true);
   doc.totals.reset();
   await firstRolling();
 }

@@ -3,6 +3,7 @@ const NUM_OF = {
   DICE_VALUE: 6,
   COMBINATIONS: 8,
   PLAYERS: 2,
+  ROUNDS: 3,
 };
 const COMBINATIONS = [
   'Chance', 'Pair',
