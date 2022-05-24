@@ -294,7 +294,7 @@ tr:nth-child(odd) td {
 }
 
 .container {
-  color: #c6dfc6;
+  color: #dcdcdc;
   width: 400px;
   margin: 13% auto 0 auto;
   padding: 1.5rem;
@@ -328,7 +328,7 @@ tr:nth-child(odd) td {
   top: 14px;
   transition: all 0.2s;
   padding: 0 2px;
-  color: #c6dfc6;
+  color: #dcdcdc;
   z-index: 1;
   pointer-events: none;
   font-size: 18px;
@@ -355,7 +355,7 @@ tr:nth-child(odd) td {
   font-size: 18px;
   outline: none;
   transition: all 0.3s;
-  color: #c6dfc6;
+  color: #dcdcdc;
 }
 
 .form__input:focus {
@@ -382,9 +382,9 @@ tr:nth-child(odd) td {
   width: 100%;
   margin-top: 20px;
   padding: 1rem 2rem;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-family: inherit;
-  color: #ffffff;
+  color: #dcdcdc;
   border: none;
   border-radius: var(--border-radius);
   outline: none;
