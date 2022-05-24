@@ -143,13 +143,29 @@
   <div class="enter-name">
     <div class="container">
       <form class="form" id="login">
-        <div class="form__title" style="font-size: 30px">Welcome!</div>
+        <div class="form__title" style="font-size: 40px">Welcome!</div>
         <div class="form__title">Registration</div>
         <div class="form__input-group">
-          <input type="text" class="form__input" id="input-name1" autofocus placeholder="Name of player 1">
+          <input
+            type="text"
+            id="input-name1"
+            class="form__input"
+            placeholder="Name of player 1"
+            autocomplete='off'
+            required
+          />
+          <label class='label_enter_name' for='input-name1'>Player 1</label>
         </div>
         <div class="form__input-group">
-          <input type="text" class="form__input" id="input-name2" autofocus placeholder="Name of player 2">
+          <input
+            type="text"
+            id="input-name2"
+            class="form__input"
+            placeholder="Name of player 2"
+            autocomplete='off'
+            required
+          />
+          <label class='label_enter_name' for='input-name2'>Player 2</label>
         </div>
       </form>
       <button class="form__button">Start!</button>

@@ -36,4 +36,15 @@ async function register() {
 window.addEventListener('DOMContentLoaded', () => {
   const registerButton = document.querySelector('.form__button');
   registerButton.addEventListener('click', register);
+
+  const inputAreas = document.querySelectorAll('.form__input');
+  for (const inputArea of inputAreas) {
+    inputArea.addEventListener('blur', (event) => {
+      if (event.target.value !== '') {
+        event.target.nextElementSibling.classList.add('filled');
+      } else {
+        event.target.nextElementSibling.classList.remove('filled');
+      }
+    });
+  }
 });
