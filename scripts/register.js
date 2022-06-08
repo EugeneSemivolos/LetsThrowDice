@@ -1,4 +1,4 @@
-import { table, usedRadioButtons, playersName } from './docObjects.js';
+import { table, usedRadioButtons, playersName } from './domObjects.js';
 import { restart } from './main.js';
 
 const hideForm = () => {

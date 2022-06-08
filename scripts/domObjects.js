@@ -1,5 +1,5 @@
 import { numOf } from './config.js';
-import { map } from './utils.js';
+import { map, getDiceValueFromSrc } from './utils.js';
 
 //header
 const restartButton = document.getElementById('restart');
@@ -22,7 +22,7 @@ totals.reset = () => {
 
 const whoseTurn = document.getElementById('whose-turn');
 
-//center
+//center panel
 const throwsLeft = document.getElementById('throws-left');
 
 Object.defineProperty(throwsLeft, 'value', {
@@ -35,36 +35,18 @@ Object.defineProperty(throwsLeft, 'value', {
   },
 });
 
-const dices = document.getElementsByClassName('dice-value');
+const dices = document.querySelectorAll('.dice-value');
 
-dices.getValueOfDiceOnPos = (pos) => {
-  const diceSrs = dices[pos].src;
-  const len = diceSrs.length;
-  const posOfValueFromRight = 5;
-  return diceSrs[len - posOfValueFromRight];
-};
-
-dices.getValues = () => {
-  const values = [];
-  for (let i = 0; i < numOf.dicePositions; i++) {
-    values.push(parseInt(dices.getValueOfDiceOnPos(i)));
-  }
-  return values;
-};
+dices.getValues = () => map(dices, (dice) => getDiceValueFromSrc(dice.src));
 
 const checkboxes = document.querySelectorAll('.checkbox');
 
 checkboxes.getCheckedDices = () => {
   const result = [];
-  const values = map(checkboxes, (checkbox) => checkbox.checked);
-  for (const [i, isChecked] of values.entries()) {
-    if (isChecked) result.push(i + 1);
+  for (const checkbox of checkboxes) {
+    if (checkbox.checked) result.push(checkbox);
   }
   return result;
-};
-
-checkboxes.set = (key, value) => {
-  map(checkboxes, (checkbox) => { checkbox[key] = value; });
 };
 
 const throwBtn = document.getElementById('throw-button');
@@ -94,12 +76,6 @@ const radioButtons = document.querySelectorAll('.radio');
 radioButtons.show = (usedRadios, player) => {
   for (const [i, usedRadio] of usedRadios[player].entries()) {
     if (!usedRadio) radioButtons[i].disabled = false;
-  }
-};
-
-radioButtons.set = (key, value) => {
-  for (const radioButton of radioButtons) {
-    radioButton[key] = value;
   }
 };
 

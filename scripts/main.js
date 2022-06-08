@@ -1,36 +1,36 @@
 import { numOf, diceSources, rollDelay, combinations } from './config.js';
-import * as doc from './docObjects.js';
-import { sleep } from './utils.js';
+import * as dom from './domObjects.js';
+import { sleep, setAttribute, randNum } from './utils.js';
 
 let player = 0;
 
 const setRightBoard = (curComb, bonus, total) => {
-  doc.currentComb.innerHTML = curComb;
-  doc.currentBonus.innerHTML = bonus;
-  doc.currentTotal.innerHTML = total;
+  dom.currentComb.innerHTML = curComb;
+  dom.currentBonus.innerHTML = bonus;
+  dom.currentTotal.innerHTML = total;
 };
 
-const roll = async (checkedDice) => {
-  let delay = rollDelay.start;
-  const randNum = (max) => Math.floor(Math.random() * max);
+const roll = async (checkedDices) => {
+  checkedDices = checkedDices.map((dice, i) => i + 1);
 
+  let delay = rollDelay.start;
   while (delay < rollDelay.end) {
     await sleep(delay);
-    const randPos = checkedDice[randNum(checkedDice.length)] - 1;
+    const randPos = checkedDices[randNum(checkedDices.length)] - 1;
     const randDice = randNum(numOf.diceValue);
-    doc.dices[randPos].src = diceSources[randDice];
+    dom.dices[randPos].src = diceSources[randDice];
     delay *= rollDelay.acceleration;
   }
 };
 
 const firstRolling = async () => {
-  doc.throwsLeft.value = numOf.rounds;
-  doc.whoseTurn.innerHTML = `${doc.playersName[player]} throws dices`;
+  dom.throwsLeft.value = numOf.rounds;
+  dom.whoseTurn.innerHTML = `${dom.playersName[player]} throws dices`;
   setRightBoard('...', 0, 0);
-  doc.checkboxes.set('checked', true);
-  doc.throwBtn.disabled = false;
+  setAttribute(dom.checkboxes, 'checked', true);
+  dom.throwBtn.disabled = false;
   await throwDices();
-  doc.radioButtons.show(doc.usedRadioButtons, player);
+  dom.radioButtons.show(dom.usedRadioButtons, player);
 };
 
 const processComb = (inputDices) => {
@@ -66,76 +66,76 @@ const checkComb = (inputDices) => { //return array [nameComb, bonus, resultSum]
 };
 
 async function throwDices() {
-  const checkedDices = doc.checkboxes.getCheckedDices();
+  const checkedDices = dom.checkboxes.getCheckedDices();
   if (!checkedDices.length)
     return console.error('check the dices you want to roll');
 
-  doc.radioButtons.set('checked', 0);
-  doc.checkboxes.set('disabled', true);
-  doc.throwBtn.disabled = true;
-  doc.finishBtn.disabled = true;
+  setAttribute(dom.radioButtons, 'checked', 0);
+  setAttribute(dom.checkboxes, 'disabled', true);
+  dom.throwBtn.disabled = true;
+  dom.finishBtn.disabled = true;
 
   await roll(checkedDices);
 
-  const values = doc.dices.getValues();
+  const values = dom.dices.getValues();
   setRightBoard(...checkComb(values));
-  doc.throwsLeft.value--;
-  doc.checkboxes.set('checked', false);
-  doc.finishBtn.disabled = false;
-  if (doc.throwsLeft.value !== 0) {
-    doc.throwBtn.disabled = false;
-    doc.checkboxes.set('disabled', false);
+  dom.throwsLeft.value--;
+  setAttribute(dom.checkboxes, 'checked', false);
+  dom.finishBtn.disabled = false;
+  if (dom.throwsLeft.value !== 0) {
+    dom.throwBtn.disabled = false;
+    setAttribute(dom.checkboxes, 'disabled', false);
   }
 }
 
 const findOutWinner = () => {
-  doc.checkboxes.set('disabled', true);
-  doc.throwBtn.disabled = true;
-  doc.finishBtn.disabled = true;
-  const res1 = parseInt(doc.totals[0].innerHTML);
-  const res2 = parseInt(doc.totals[1].innerHTML);
-  if (res1 > res2) doc.whoseTurn.innerHTML = `${doc.playersName[0]} Won!`;
-  else if (res1 < res2) doc.whoseTurn.innerHTML = `${doc.playersName[1]} Won!`;
-  else doc.whoseTurn.innerHTML = 'Draw!';
+  setAttribute(dom.checkboxes, 'disabled', true);
+  dom.throwBtn.disabled = true;
+  dom.finishBtn.disabled = true;
+  const res1 = parseInt(dom.totals[0].innerHTML);
+  const res2 = parseInt(dom.totals[1].innerHTML);
+  if (res1 > res2) dom.whoseTurn.innerHTML = `${dom.playersName[0]} Won!`;
+  else if (res1 < res2) dom.whoseTurn.innerHTML = `${dom.playersName[1]} Won!`;
+  else dom.whoseTurn.innerHTML = 'Draw!';
 };
 
 async function recordResult() {
-  const checkedRadio = doc.radioButtons.find((radio) => radio.checked);
+  const checkedRadio = dom.radioButtons.find((radio) => radio.checked);
   if (!checkedRadio) return console.error('make your choice');
 
-  const indexOfComb = combinations.indexOf(doc.currentComb.innerHTML);
+  const indexOfComb = combinations.indexOf(dom.currentComb.innerHTML);
   if (checkedRadio.value === indexOfComb.toString()) {
-    const prevSum = parseInt(doc.totals[player].innerHTML);
+    const prevSum = parseInt(dom.totals[player].innerHTML);
     const total = parseInt(document.getElementById('total').innerHTML);
-    doc.totals[player].innerHTML = (prevSum + total).toString();
-    doc.table[player][checkedRadio.value].innerHTML = doc.currentTotal.innerHTML;
+    dom.totals[player].innerHTML = (prevSum + total).toString();
+    dom.table[player][checkedRadio.value].innerHTML = dom.currentTotal.innerHTML;
   } else {
-    doc.table[player][checkedRadio.value].innerHTML = '0';
+    dom.table[player][checkedRadio.value].innerHTML = '0';
   }
-  doc.usedRadioButtons[player][checkedRadio.value] = true;
+  dom.usedRadioButtons[player][checkedRadio.value] = true;
 
-  const isGameOver = !doc.usedRadioButtons[1].includes(false);
+  const isGameOver = !dom.usedRadioButtons[1].includes(false);
   if (isGameOver) {
     findOutWinner();
   } else {
     player = (player + 1) % 2;
-    doc.radioButtons.set('disabled', true);
+    setAttribute(dom.radioButtons, 'disabled', true);
     await firstRolling();
   }
 }
 
 export async function restart() {
-  doc.radioButtons.set('checked', 0);
+  setAttribute(dom.radioButtons, 'checked', 0);
+  setAttribute(dom.radioButtons, 'disabled', true);
   player = 0;
-  doc.usedRadioButtons.reset();
-  doc.radioButtons.set('disabled', true);
-  doc.totals.reset();
+  dom.usedRadioButtons.reset();
+  dom.totals.reset();
   await firstRolling();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  doc.throwBtn.addEventListener('click', throwDices);
-  doc.finishBtn.addEventListener('click', recordResult);
-  doc.restartButton.addEventListener('click', restart);
+  dom.throwBtn.addEventListener('click', throwDices);
+  dom.finishBtn.addEventListener('click', recordResult);
+  dom.restartButton.addEventListener('click', restart);
 });
 

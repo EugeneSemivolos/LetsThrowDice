@@ -9,3 +9,17 @@ export const map = (iterable, callback) => {
   }
   return result;
 };
+
+export const setAttribute = (iterable, key, value) => {
+  for (const item of iterable) {
+    item[key] = value;
+  }
+};
+
+export const getDiceValueFromSrc = (src) => {
+  const len = src.length;
+  const posOfValueFromRight = 5;
+  return parseInt(src[len - posOfValueFromRight]);
+};
+
+export const randNum = (max) => Math.floor(Math.random() * max);
