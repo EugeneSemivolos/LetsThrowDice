@@ -1,5 +1,6 @@
 import { table, usedRadioButtons, playersName } from './domObjects.js';
 import { restart } from './main.js';
+import { numOf } from './config.js';
 
 const hideForm = () => {
   document.querySelector('.enter-name').style.transform = 'scale(0)';
@@ -15,9 +16,25 @@ const setNames = (...inputNames) => {
   }
 };
 
+const initTable = () => {
+  for (let i = 0; i < numOf.players; i++) {
+    for (let j = 0; j < numOf.combinations; j++) {
+      const cell = document.getElementById(i.toString() + j.toString());
+      table[i].push(cell);
+    }
+  }
+};
+
+const initUsedRadioBtns = () => {
+  usedRadioButtons.push(
+    new Array(numOf.combinations).fill(false),
+    new Array(numOf.combinations).fill(false),
+  );
+};
+
 const startGame = async () => {
-  table.init();
-  usedRadioButtons.init();
+  initTable();
+  initUsedRadioBtns();
   await restart();
 };
 

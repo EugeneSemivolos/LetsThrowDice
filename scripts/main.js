@@ -1,6 +1,7 @@
 import { numOf, diceSources, rollDelay, combinations } from './config.js';
 import * as dom from './domObjects.js';
 import { sleep, setAttribute, randNum } from './utils.js';
+import { table } from './domObjects.js';
 
 let player = 0;
 
@@ -10,13 +11,11 @@ const setRightBoard = (curComb, bonus, total) => {
   dom.currentTotal.innerHTML = total;
 };
 
-const roll = async (checkedDices) => {
-  checkedDices = checkedDices.map((dice, i) => i + 1);
-
+const roll = async (posCheckedDices) => {
   let delay = rollDelay.start;
   while (delay < rollDelay.end) {
     await sleep(delay);
-    const randPos = checkedDices[randNum(checkedDices.length)] - 1;
+    const randPos = posCheckedDices[randNum(posCheckedDices.length)] - 1;
     const randDice = randNum(numOf.diceValue);
     dom.dices[randPos].src = diceSources[randDice];
     delay *= rollDelay.acceleration;
@@ -66,8 +65,8 @@ const checkComb = (inputDices) => { //return array [nameComb, bonus, resultSum]
 };
 
 async function throwDices() {
-  const checkedDices = dom.checkboxes.getCheckedDices();
-  if (!checkedDices.length)
+  const posOfCheckedDices = dom.checkboxes.getPosOfCheckedDices();
+  if (!posOfCheckedDices.length)
     return console.error('check the dices you want to roll');
 
   setAttribute(dom.radioButtons, 'checked', 0);
@@ -75,7 +74,7 @@ async function throwDices() {
   dom.throwBtn.disabled = true;
   dom.finishBtn.disabled = true;
 
-  await roll(checkedDices);
+  await roll(posOfCheckedDices);
 
   const values = dom.dices.getValues();
   setRightBoard(...checkComb(values));
@@ -127,9 +126,12 @@ async function recordResult() {
 export async function restart() {
   setAttribute(dom.radioButtons, 'checked', 0);
   setAttribute(dom.radioButtons, 'disabled', true);
+  for (let i = 0; i < numOf.players; i++) {
+    dom.usedRadioButtons[i].fill(false);
+    dom.totals[i].innerHTML = '0';
+  }
+  table.clear();
   player = 0;
-  dom.usedRadioButtons.reset();
-  dom.totals.reset();
   await firstRolling();
 }
 
