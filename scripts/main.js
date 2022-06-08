@@ -1,5 +1,6 @@
-import { NUM_OF, COMBINATIONS, DICE_SOURCES, DELAY } from './config.js';
+import { numOf, diceSources, rollDelay, combinations } from './config.js';
 import * as doc from './docObjects.js';
+import { sleep } from './utils.js';
 
 let player = 0;
 
@@ -9,25 +10,21 @@ const setRightBoard = (curComb, bonus, total) => {
   doc.currentTotal.innerHTML = total;
 };
 
-const sleep = (time) => new Promise((resolve) => {
-  setTimeout(resolve, time);
-});
-
 const roll = async (checkedDice) => {
-  let delay = DELAY.START;
+  let delay = rollDelay.start;
   const randNum = (max) => Math.floor(Math.random() * max);
 
-  while (delay < DELAY.END) {
+  while (delay < rollDelay.end) {
     await sleep(delay);
     const randPos = checkedDice[randNum(checkedDice.length)] - 1;
-    const randDice = randNum(NUM_OF.DICE_VALUE);
-    doc.dices[randPos].src = DICE_SOURCES[randDice];
-    delay *= DELAY.ACCELERATION;
+    const randDice = randNum(numOf.diceValue);
+    doc.dices[randPos].src = diceSources[randDice];
+    delay *= rollDelay.acceleration;
   }
 };
 
 const firstRolling = async () => {
-  doc.throwsLeft.value = NUM_OF.ROUNDS;
+  doc.throwsLeft.value = numOf.rounds;
   doc.whoseTurn.innerHTML = `${doc.playersName[player]} throws dices`;
   setRightBoard('...', 0, 0);
   doc.checkboxes.set('checked', true);
@@ -37,15 +34,15 @@ const firstRolling = async () => {
 };
 
 const processComb = (inputDices) => {
-  const numOfValues = new Array(NUM_OF.DICE_VALUE + 1).fill(0);
-  const numOfComb = new Array(NUM_OF.DICE_VALUE).fill(0);
+  const numOfValues = new Array(numOf.diceValue + 1).fill(0);
+  const numOfComb = new Array(numOf.diceValue).fill(0);
   //numOfComb means number of pairs or triplets or ect
   let sumOfValues = 0;
   for (const value of inputDices) {
     numOfValues[value]++;
     sumOfValues += value;
   }
-  for (let i = 1; i <= NUM_OF.DICE_VALUE; i++) {
+  for (let i = 1; i <= numOf.diceValue; i++) {
     numOfComb[numOfValues[i]]++;
   }
   return { numOfComb, numOfValues, sumOfValues };
@@ -106,7 +103,7 @@ async function recordResult() {
   const checkedRadio = doc.radioButtons.find((radio) => radio.checked);
   if (!checkedRadio) return console.error('make your choice');
 
-  const indexOfComb = COMBINATIONS.indexOf(doc.currentComb.innerHTML);
+  const indexOfComb = combinations.indexOf(doc.currentComb.innerHTML);
   if (checkedRadio.value === indexOfComb.toString()) {
     const prevSum = parseInt(doc.totals[player].innerHTML);
     const total = parseInt(document.getElementById('total').innerHTML);

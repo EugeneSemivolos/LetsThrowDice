@@ -1,17 +1,17 @@
-const NUM_OF = {
-  DICE_POSITIONS: 5,
-  DICE_VALUE: 6,
-  COMBINATIONS: 8,
-  PLAYERS: 2,
-  ROUNDS: 3,
+const numOf = {
+  dicePositions: 5,
+  diceValue: 6,
+  combinations: 8,
+  players: 2,
+  rounds: 3,
 };
-const COMBINATIONS = [
+const combinations = [
   'Chance', 'Pair',
   'Two Pair', 'Three of a kind',
   'Straight', 'Full House',
   'Four of a kind', 'Poker',
 ];
-const DICE_SOURCES = [
+const diceSources = [
   './images/dice/dice_1.png',
   './images/dice/dice_2.png',
   './images/dice/dice_3.png',
@@ -19,10 +19,10 @@ const DICE_SOURCES = [
   './images/dice/dice_5.png',
   './images/dice/dice_6.png',
 ];
-const DELAY = {
-  START: 30,
-  ACCELERATION: 1.04,
-  END: 150,
+const rollDelay = {
+  start: 30,
+  acceleration: 1.04,
+  end: 150,
 };
 
-export { NUM_OF, COMBINATIONS, DELAY, DICE_SOURCES };
+export { numOf, rollDelay, combinations, diceSources };
